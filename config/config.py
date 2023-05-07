@@ -20,4 +20,4 @@ INIT_HEIGHT = 641
 FPS = 60
 title = "AI MAZE Game"
 CELLSIZE = 50
-cut
+
