@@ -11,10 +11,13 @@ DARKGREY = (40, 40, 40)
 LIGHTGREY = (100, 100, 100)
 BGCOLOUR = DARKGREY
 
+# setings
+title = "AI MAZE Game"
+
 # game settings
 INIT_WIDTH = 800
 INIT_HEIGHT = 641
 FPS = 60
 title = "AI MAZE Game"
 CELLSIZE = 50
-GAME_SIZE = 3
+cut
