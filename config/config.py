@@ -15,9 +15,13 @@ BGCOLOUR = DARKGREY
 title = "AI MAZE Game"
 
 # game settings
+CUSTOM_CONFIG = False
+
+STARTCOLOR = 'saddlebrown'
+VISITEDCOLOR = 'black'
+BORDERCOLOR = 'darkorange'
 INIT_WIDTH = 800
 INIT_HEIGHT = 641
 FPS = 60
-title = "AI MAZE Game"
 CELLSIZE = 50
 
