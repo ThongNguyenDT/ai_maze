@@ -5,17 +5,17 @@ from config.config import INIT_WIDTH, CELLSIZE, INIT_HEIGHT, FPS
 from object.gameplay.Cell import Cell
 
 size = INIT_WIDTH // CELLSIZE, INIT_HEIGHT // CELLSIZE
-
 RES = INIT_WIDTH, INIT_HEIGHT
+
 pygame.init()
 sc = pygame.display.set_mode(RES)
 clock = pygame.time.Clock()
+
+
 cols, rows = size
 print("res, rows, cols", RES, INIT_WIDTH // CELLSIZE, INIT_HEIGHT // CELLSIZE, size)
 grid_cells = [Cell(col, row, size) for row in range(rows) for col in range(cols)]
 current_cell = grid_cells[0]
-stack = []
-colors, color = [], 40
 
 
 gen_map = DFSMAPGen(grid_cells)
