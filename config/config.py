@@ -17,6 +17,7 @@ title = "AI MAZE Game"
 # game settings
 CUSTOM_CONFIG = False
 
+MAINCOLOR = 'darkslategray'
 STARTCOLOR = 'saddlebrown'
 VISITEDCOLOR = 'black'
 BORDERCOLOR = 'darkorange'
