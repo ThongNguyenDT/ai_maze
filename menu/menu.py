@@ -9,7 +9,9 @@ from object.draw.UIElement import UIElement
 def main_menu(screen, click=False, callbacks=None):
     # draw_text('main menu', font, (255, 255, 255), screen, 20, 20)
 
-    UIElement(20, 20, 'main menu').draw(screen, font=pygame.font.Font('../assets/font/emulogic.ttf'))
+    if callbacks is None:
+        callbacks = []
+    UIElement(20, 20, 'main menu').draw(screen, font=pygame.font.Font('assets/font/emulogic.ttf'))
 
     mx, my = pygame.mouse.get_pos()
     y = 100
