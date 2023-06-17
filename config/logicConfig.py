@@ -14,7 +14,7 @@ class Config:
         self.level = 1
         self.config = custom
 
-    def cellsize(self):
+    def cellsize_level(self):
         cellsize = CELLSIZE
         if self.level != 1:
             cell = self.heigh // CELLSIZE + 5 * self.level
@@ -28,7 +28,6 @@ class Config:
     def config_save(self):
         config = configparser.ConfigParser()
         config.read('config/config.ini')
-
 
         with open('config.ini', 'w') as configfile:
             config.write(configfile)
