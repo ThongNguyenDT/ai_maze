@@ -1,6 +1,6 @@
 """This module contains all of the necessary PyGame components for
 running a simplified game loop.
-Use it for test cases on PyGame-related code.
+Use it for mytest cases on PyGame-related code.
 """
 import sys
 import pygame
@@ -37,7 +37,7 @@ if pygame_modules_have_loaded():
     def declare_globals():
         # The class(es) that will be tested should be declared and initialized
         # here with the global keyword.
-        # Yes, globals are evil, but for a confined test script they will make
+        # Yes, globals are evil, but for a confined mytest script they will make
         # everything much easier. This way, you can access the class(es) from
         # all three of the methods provided below.
         pass
