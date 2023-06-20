@@ -1,16 +1,21 @@
 import pygame
 from random import choice
 
-from config.config import INIT_WIDTH, CELLSIZE, INIT_HEIGHT, STARTCOLOR, VISITEDCOLOR, BORDERCOLOR
+from config.config import STARTCOLOR, VISITEDCOLOR, BORDERCOLOR
+from config.logicConfig import Config
 
 
 class Cell:
-    def __init__(self, x, y, size):
+    def __init__(self, x, y, map_size=None, config=None):
+        if config is None:
+            config = Config()
         self.x, self.y = x, y
         self.walls = {'top': True, 'right': True, 'bottom': True, 'left': True}
-        self.size = size
+        self.size = map_size
         self.visited = False
         self.thickness = 4
+        self.cel_size = config.cellsize
+        print("cellsizeincell", self.cel_size)
 
     def draw_current_cell(self, sc):
         x, y = self.x * CELLSIZE, self.y * CELLSIZE
