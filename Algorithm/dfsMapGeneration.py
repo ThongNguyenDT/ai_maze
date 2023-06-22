@@ -1,6 +1,7 @@
 import pygame
 
-from config.logicConfig import *
+from config.logicConfig import Config
+from config.config import *
 from object.gameplay.Cell import Cell
 
 size = INIT_WIDTH // CELLSIZE, INIT_HEIGHT // CELLSIZE
