@@ -10,11 +10,13 @@ Igrid_cells = [Cell(col, row, size) for row in range(rows) for col in range(cols
 
 
 class DFSMAPGen:
-    def __init__(self, grid_cells=None):
+    def __init__(self, grid_cells=None, config=None):
         if grid_cells is None:
             grid_cells = Igrid_cells
-        config = Config()
-        self.size = config.width // config.cellsize(), config.heigh // config.cellsize()
+        if config is None:
+            config = Config()
+        self.config = config
+        self.size = self.config.width // self.config.cellsize, self.config.heigh // self.config.cellsize
         self.grid_cells = grid_cells
         self.colors, self.color = [], 40
         self.stack = []
