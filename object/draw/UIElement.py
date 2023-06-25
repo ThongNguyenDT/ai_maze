@@ -17,5 +17,4 @@ class UIElement:
 
         text = font.render(self.text, True, color)
         screen.blit(text, (self.x, self.y))
-    def click(self, mouse_x, mouse_y):
-        return self.x <= mouse_x <= self.x + self.width and self.y <= mouse_y <= self.y + self.height
+
