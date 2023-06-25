@@ -9,11 +9,11 @@ class UIElement:
         self.text = text
         self.size = 30
 
-    def draw(self, screen, size=None, font=None, color=WHITE):
-        if size is None:
-            size = self.size
+    def draw(self, screen, fontsize=None, font=None, color=WHITE):
+        if fontsize is None:
+            fontsize = self.size
         if font is None:
-            font = pygame.font.SysFont("Consolas", size)
+            font = pygame.font.SysFont("Consolas", fontsize)
 
         text = font.render(self.text, True, color)
         screen.blit(text, (self.x, self.y))
