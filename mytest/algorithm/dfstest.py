@@ -53,3 +53,18 @@ def solve_maze(maze):
     return result_maze
 
 # Ví dụ một maze
+maze = [
+    [0, 1, 0, 0, 1],
+    [0, 0, 1, 0, 0],
+    [0, 0, 0, 1, 1],
+    [0, 1, 0, 0, 0],
+    [0, 0, 1, 0, 0]
+]
+
+result = solve_maze(maze)
+if result:
+    print("Maze kết quả:")
+    for row in result:
+        print(row)
+else:
+    print("Không có đường đi từ điểm đầu đến điểm cuối trong maze.")
