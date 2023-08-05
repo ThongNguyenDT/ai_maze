@@ -34,6 +34,14 @@ def id(maze, start, goal, sc, config=None):
                     stack.append((neighbor, new_path))
 
 
+                [cell.draw(sc) for cell in maze]
+                pygame.display.flip()
+
+
+
+
+                speed = 20
+                pygame.time.Clock().tick(speed)
 
         for cell in maze:
             cell.visited = False
