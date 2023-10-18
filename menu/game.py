@@ -59,9 +59,11 @@ class game:
         # self.start_autoplay = False
         # self.steps = np.array([])
         # self.step_autoplay = 0
-        # self.buttons_list = []
-        # x = self.size[1] * self.config.cellsize + 60, self.size[0] * self.config.cellsize * 0.08,
-        # self.buttons_list.append(Button(x[0], 100, 200, 50, "Shuffle", WHITE, BLACK))
+        self.directions = {'a': 'left', 'd': 'right', 'w': 'top', 's': 'bottom'}
+        self.keys = {'a': pygame.K_a, 'd': pygame.K_d, 'w': pygame.K_w, 's': pygame.K_s}
+        self.buttons_list = []
+        x = self.size[1] * self.config.cellsize + 60, self.size[0] * self.config.cellsize * 0.08,
+        self.buttons_list.append(Button(x[0], 100, 200, 50, "Shuffle", WHITE, BLACK))
         # self.buttons_list.append(Button(500, 170, 200, 50, "Reset", WHITE, BLACK))
         # self.buttons_list.append(Button(425, 450, 100, 50, "BFS", WHITE, BLACK))
         # self.buttons_list.append(Button(550, 450, 100, 50, "DFS", WHITE, BLACK))
@@ -69,16 +71,14 @@ class game:
         # self.buttons_list.append(Button(300, 450, 100, 50, "Astar", WHITE, BLACK))
 
     def create_map(self):
-        break_count = 1
-        while break_count != len(self.grid_cells):
+        isBreak = False
+        while not isBreak:
             [cell.draw(self.screen) for cell in self.grid_cells]
-            self.current_cell, break_count = self.map.draw_maze(self.screen, self.current_cell, break_count)
+            self.current_cell, isBreak = self.map.draw_maze(self.screen, self.current_cell, isBreak)
             self.clock.tick(self.config.fps)
             pygame.display.update()
 
-
     def run(self):
-        print("inrun")
         self.playing = True
         while self.playing:
             self.clock.tick(self.config.fps)
@@ -118,7 +118,6 @@ class game:
         #         self.new()
         #     self.draw_tiles()
 
-
     def draw(self):
         self.all_sprites.draw(self.screen)
         self.screen.fill(pygame.Color(self.config.maincolor))
@@ -129,22 +128,34 @@ class game:
         # UIElement(550, 35, "%.3f" % self.elapsed_time).draw(self.screen)
         # UIElement(430, 300, "High Score - %.3f" % (self.high_score if self.high_score > 0 else 0)).draw(self.screen)
         pygame.display.flip()
-        self.clock.tick(self.config.fps)
 
     def draw_grid(self):
         [cell.draw(self.screen) for cell in self.grid_cells]
         pygame.display.flip()
-
-
 
     def events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
+            keyup = True
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.running = False
+
+                pressed_key = pygame.key.get_pressed()
+                for key, key_value in self.keys.items():
+                    if pressed_key[key_value] and keyup:
+                        keyup = False
+                        print(pressed_key[key_value])
+                        print('key ', key)
+                        print('directions[key] ', self.directions[key])
+                        print('possoble move ', self.current_cell.possible_move(self.grid_cells))
+                        if self.directions[key] in self.current_cell.possible_move(self.grid_cells):
+                            print('move', self.current_cell.possible_move(self.grid_cells)[self.directions[key]])
+                            self.current_cell = self.current_cell.possible_move(self.grid_cells)[self.directions[key]]
+            if event.type == pygame.KEYUP:
+                keyup = True
 
         #     if event.type == pygame.MOUSEBUTTONDOWN:
         #         mouse_x, mouse_y = pygame.mouse.get_pos()
