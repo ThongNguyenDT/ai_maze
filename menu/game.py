@@ -147,12 +147,7 @@ class game:
                 for key, key_value in self.keys.items():
                     if pressed_key[key_value] and keyup:
                         keyup = False
-                        print(pressed_key[key_value])
-                        print('key ', key)
-                        print('directions[key] ', self.directions[key])
-                        print('possoble move ', self.current_cell.possible_move(self.grid_cells))
                         if self.directions[key] in self.current_cell.possible_move(self.grid_cells):
-                            print('move', self.current_cell.possible_move(self.grid_cells)[self.directions[key]])
                             self.current_cell = self.current_cell.possible_move(self.grid_cells)[self.directions[key]]
             if event.type == pygame.KEYUP:
                 keyup = True
