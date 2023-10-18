@@ -1,78 +1,108 @@
 import os
 
-def solve_maze_bfs(maze):
-    if not maze or not maze[0]:
-        return []
+import numpy as np
 
-    rows, cols = len(maze), len(maze[0])
-    start = (0, 0)
-    end = (rows - 1, cols - 1)
+from config.logicConfig import Config
 
-    stack = [start]
-    visited = set()
-    maze_copy = [row[:] for row in maze]  # Create a copy of the maze
 
-    step = 1
+class BFS:
+    def __init__(self, grid_cells, size, current_cell, config=None):
+        if config is None:
+            config = Config()
+        self.config = config
+        self.size = size[1], size[0]  # 0 cols, 1 rows
+        self.maze = np.array(grid_cells).reshape(self.size).tolist()
+        self.current_cell = current_cell
+        self.end = (size[1] - 1, size[0] - 1)
+        self.colors, self.color = [], 40
+        self.queue = [self.current_cell]
+        self.path = []
 
-    while stack:
-        current = stack.pop()
+    def solve_maze_bfs(self, maze, draw):
+        print(self.size)
+        self.maze = np.array(maze).reshape(self.size).tolist()
+        rows, cols = len(self.maze), len(self.maze[0])
+        start = (0, 0)
+        end = (rows - 1, cols - 1)
 
-        x, y = current
+        stack = [start]
+        visited = set()
+        maze_copy = [row[:] for row in self.maze]  # Create a copy of the maze
 
-        # Mark the current cell as part of the path
-        maze_copy[x][y] = 2
+        step = 1
 
-        # Clear the console (for better visualization)
-        os.system("cls" if os.name == "nt" else "clear")
+        while stack:
+            current = stack.pop()
+            x, y = current
 
-        # Print the step number
-        print("Step {}:".format(step))
+            # Mark the current cell as part of the path
+            maze_copy[x][y] = 2
 
-        # Print the maze at this step
-        for row in maze_copy:
+            # Clear the console (for better visualization)
+            os.system("cls" if os.name == "nt" else "clear")
+
+            # Print the step number
+            print("Step {}:".format(step))
+
+
+            if current == end:
+                break  # Stop if the end is reached
+
+            step += 1
+
+            # Try moving up
+            if x > 0 and self.maze[x - 1][y] == 0 and (x - 1, y) not in visited:
+                stack.append((x - 1, y))
+                visited.add((x - 1, y))
+
+            # Try moving down
+            if x < rows - 1 and self.maze[x + 1][y] == 0 and (x + 1, y) not in visited:
+                stack.append((x + 1, y))
+                visited.add((x + 1, y))
+
+            # Try moving left
+            if y > 0 and self.maze[x][y - 1] == 0 and (x, y - 1) not in visited:
+                stack.append((x, y - 1))
+                visited.add((x, y - 1))
+
+            # Try moving right
+            if y < cols - 1 and self.maze[x][y + 1] == 0 and (x, y + 1) not in visited:
+                stack.append((x, y + 1))
+                visited.add((x, y + 1))
+
+            # for i in visited:
+            #     self.maze[i[0] * rows + i[1]].visited = True
+            # draw()
+
+        return maze_copy
+
+    def draw_maze(self, queue, isBreak=False):
+        self.queue = queue
+        if not self.queue:
+            isBreak = True
+            return
+        self.current_cell = self.queue.pop(0)
+        if not self.current_cell.visited:
+            self.current_cell.visited = True
+            self.path.append(self.current_cell)
+            queue.extend(self.current_cell.check_neighbors)
+
+
+if __name__ == '__main__':
+
+    # Example maze
+    maze = [
+        [0, 0, 1, 1, 1],
+        [0, 0, 1, 1, 0],
+        [0, 0, 0, 1, 1],
+        [0, 1, 0, 0, 0],
+        [0, 0, 1, 0, 0]
+    ]
+
+    result = BFS(maze, (5, 5)).solve_maze_bfs(maze)
+    if result:
+        print("Final Maze:")
+        for row in result:
             print(row)
-        print("\n")
-
-        if current == end:
-            break  # Stop if the end is reached
-
-        step += 1
-
-        # Try moving up
-        if x > 0 and maze[x - 1][y] == 0 and (x - 1, y) not in visited:
-            stack.append((x - 1, y))
-            visited.add((x - 1, y))
-
-        # Try moving down
-        if x < rows - 1 and maze[x + 1][y] == 0 and (x + 1, y) not in visited:
-            stack.append((x + 1, y))
-            visited.add((x + 1, y))
-
-        # Try moving left
-        if y > 0 and maze[x][y - 1] == 0 and (x, y - 1) not in visited:
-            stack.append((x, y - 1))
-            visited.add((x, y - 1))
-
-        # Try moving right
-        if y < cols - 1 and maze[x][y + 1] == 0 and (x, y + 1) not in visited:
-            stack.append((x, y + 1))
-            visited.add((x, y + 1))
-
-    return maze_copy
-
-# Example maze
-maze = [
-    [0, 0, 1, 1, 1],
-    [0, 0, 1, 1, 0],
-    [0, 0, 0, 1, 1],
-    [0, 1, 0, 0, 0],
-    [0, 0, 1, 0, 0]
-]
-
-result = solve_maze_bfs(maze)
-if result:
-    print("Final Maze:")
-    for row in result:
-        print(row)
-else:
-    print("Không có đường đi từ điểm đầu đến điểm cuối trong maze.")
+    else:
+        print("Không có đường đi từ điểm đầu đến điểm cuối trong maze.")

@@ -91,4 +91,4 @@ class Cell:
             neighbors.append(bottom)
         if left and not left.visited:
             neighbors.append(left)
-        return choice(neighbors) if neighbors else False
+        return neighbors

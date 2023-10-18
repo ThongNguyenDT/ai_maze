@@ -1,3 +1,5 @@
+from random import choice
+
 import pygame
 
 from config.logicConfig import Config
@@ -46,7 +48,7 @@ class DFSMAPGen:
 
         while break_count != len(grid_cells):
             current_cell.visited = True
-            next_cell = current_cell.check_neighbors(grid_cells)
+            next_cell = choice(current_cell.check_neighbors(grid_cells)) if current_cell.check_neighbors(grid_cells) else False
             if next_cell:
                 next_cell.visited = True
                 break_count += 1
@@ -64,7 +66,9 @@ class DFSMAPGen:
                           (cell.x * self.config.cellsize + 5, cell.y * self.config.cellsize + 5,
                            self.config.cellsize - 10, self.config.cellsize - 10),
                           border_radius=8) for i, cell in enumerate(self.stack)]
-        next_cell = current_cell.check_neighbors(self.grid_cells)
+        next_cell = choice(current_cell.check_neighbors(self.grid_cells)) if current_cell.check_neighbors(
+            self.grid_cells) else False
+
         if next_cell:
             next_cell.visited = True
             self.stack.append(current_cell)
