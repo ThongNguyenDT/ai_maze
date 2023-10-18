@@ -46,8 +46,7 @@ class game:
     #     pass
 
     def new(self):
-        print("int new")
-        # self.all_sprites = pygame.sprite.Group()
+        self.all_sprites = pygame.sprite.Group()
         self.create_map()
         pygame.display.set_caption('MAZE - game')
         self.screen.fill(pygame.Color(self.config.maincolor))
@@ -82,13 +81,13 @@ class game:
         print("inrun")
         self.playing = True
         while self.playing:
+            self.clock.tick(self.config.fps)
             self.events()
             self.update()
             self.draw()
 
     def update(self):
-        pass
-        # self.all_sprites.update()
+        self.all_sprites.update()
         # if self.start_game:
         #     if self.current_cell == self.grid_cells[-1]:
         #         self.start_game = False
@@ -121,7 +120,9 @@ class game:
 
 
     def draw(self):
-        # self.all_sprites.draw(self.screen)
+        self.all_sprites.draw(self.screen)
+        self.screen.fill(pygame.Color(self.config.maincolor))
+        self.draw_grid()
         self.current_cell.draw_current_cell(self.screen)
         # for button in self.buttons_list:
         #     button.draw(self.screen)
