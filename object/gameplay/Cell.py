@@ -16,9 +16,11 @@ class Cell:
         self.thickness = 4
         self.cel_size = config.cellsize
 
-    def draw_current_cell(self, sc):
+    def draw_current_cell(self, sc, color=None):
+        if color is None:
+            color = STARTCOLOR
         x, y = self.x * self.cel_size, self.y * self.cel_size
-        pygame.draw.rect(sc, pygame.Color(STARTCOLOR), (x + 2, y + 2, self.cel_size - 2, self.cel_size - 2))
+        pygame.draw.rect(sc, pygame.Color(color), (x + 2, y + 2, self.cel_size - 2, self.cel_size - 2))
 
     def draw(self, sc):
         x, y = self.x * self.cel_size, self.y * self.cel_size
