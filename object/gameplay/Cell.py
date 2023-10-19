@@ -93,3 +93,20 @@ class Cell:
         if left and not left.visited:
             neighbors.append(left)
         return neighbors
+
+    def find_neighbors(self, grid_cells):
+        self.grid_cells = grid_cells
+        neighbors = []
+        top = self.check_cell(self.x, self.y - 1)
+        right = self.check_cell(self.x + 1, self.y)
+        bottom = self.check_cell(self.x, self.y + 1)
+        left = self.check_cell(self.x - 1, self.y)
+        if top and not top.visited and not self.walls['top']:
+            neighbors.append(top)
+        if right and not right.visited and not self.walls['right']:
+            neighbors.append(right)
+        if bottom and not bottom.visited and not self.walls['bottom']:
+            neighbors.append(bottom)
+        if left and not left.visited and not self.walls['left']:
+            neighbors.append(left)
+        return neighbors
