@@ -15,7 +15,6 @@ class Cell:
         self.visited = False
         self.thickness = 4
         self.cel_size = config.cellsize
-        print("cellsizeincell", self.cel_size)
 
     def draw_current_cell(self, sc):
         x, y = self.x * self.cel_size, self.y * self.cel_size
