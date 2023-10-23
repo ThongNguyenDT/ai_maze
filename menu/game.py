@@ -1,9 +1,5 @@
-import time
-
 import pygame
-import numpy as np
-
-from Algorithm.BFSsolve import BFS
+from Algorithm.BFSsolve import bfs
 from Algorithm.dfsMapGeneration import DFSMAPGen
 from config.config import WHITE, BLACK
 from object.draw.UIElement import UIElement
@@ -19,6 +15,7 @@ class game:
         self.running = False
         # self.previous_choice = ""
         self.start_autoplay = False
+        self.path = []
         self.start_game = False
         # self.start_timer = False
         # self.elapsed_time = 0
@@ -29,9 +26,10 @@ class game:
                            in
                            range(self.size[0])]
         self.current_cell = self.grid_cells[0]
+        self.complete_cell = self.grid_cells[-1]
+        self.colors, self.color = [], 40
         self.map = DFSMAPGen(self.grid_cells, self.config)
         # cols, rows = self.size
-
 
     # def get_high_scores(self):
     #     with open("high_score.txt", "r") as file:
@@ -50,7 +48,7 @@ class game:
         pygame.display.set_caption('MAZE - game')
         # self.elapsed_time = 0
         # self.start_timer = False
-        # self.start_game = False
+        self.start_game = False
         self.start_autoplay = False
         self.directions = {'a': 'left', 'd': 'right', 'w': 'top', 's': 'bottom'}
         self.keys = {'a': pygame.K_a, 'd': pygame.K_d, 'w': pygame.K_w, 's': pygame.K_s}
@@ -62,10 +60,10 @@ class game:
         # self.buttons_list.append(Button(550, 450, 100, 50, "DFS", WHITE, BLACK))
         # self.buttons_list.append(Button(675, 450, 100, 50, "UCS", WHITE, BLACK))
         # self.buttons_list.append(Button(300, 450, 100, 50, "Astar", WHITE, BLACK))
+        self.path = []
         self.draw()
         self.create_map()
         self.reset_visited()
-        self.bfs = BFS(self.grid_cells,self.size , self.current_cell, self.config)
 
     def create_map(self):
         isBreak = False
@@ -125,6 +123,15 @@ class game:
             button.draw(self.screen)
         UIElement(self.size[0] * self.config.cellsize + 60, self.size[0] * self.config.cellsize * 0.08, 'MAZE').draw(
             self.screen)
+        if len(self.path) > 0:
+            self.current_cell = self.complete_cell
+            for i in self.path:
+                self.colors.append((min(self.color, 255), 10, 100))
+                self.color += 1
+            [pygame.draw.rect(self.screen, self.colors[i],
+                              (cell.x * self.config.cellsize + 5, cell.y * self.config.cellsize + 5,
+                               self.config.cellsize - 10, self.config.cellsize - 10),
+                              border_radius=8) for i, cell in enumerate(self.path)]
 
         # UIElement(550, 35, "%.3f" % self.elapsed_time).draw(self.screen)
         # UIElement(430, 300, "High Score - %.3f" % (self.high_score if self.high_score > 0 else 0)).draw(self.screen)
@@ -157,7 +164,7 @@ class game:
                 for button in self.buttons_list:
                     if button.click(mouse_x, mouse_y):
                         if button.text == "BFS":
-                            self.start_autoplay= True
+                            self.start_autoplay = True
         #                 if button.text == "Reset":
         #                     self.new()
         #                 if button.text == "BFS":
@@ -173,9 +180,10 @@ class game:
         #                     self.autoplay(3)
         #                     self.start_autoplay = True
 
-
     def autoplay(self):
-        self.bfs.solve_maze_bfs(self.grid_cells, self.draw_grid)
+        self.start_autoplay = False
+        self.path = bfs(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
+
 
     def main(self):
         self.screen.fill(pygame.Color(self.config.maincolor))
@@ -187,5 +195,3 @@ class game:
             self.run()
             self.clock.tick(self.config.fps)
             pygame.display.update()
-
-
