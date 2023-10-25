@@ -50,3 +50,22 @@ def solve_maze_greedy(maze):
 
     return maze_copy
 
+# Example maze
+maze = [
+    [0, 0, 1, 1, 1, 1, 1],
+    [0, 0, 0, 1, 0, 0, 1],
+    [1, 1, 0, 1, 0, 0, 0],
+    [1, 0, 0, 0, 0, 0, 0],
+    [1, 0, 1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 0, 0, 0],
+    [1, 1, 1, 1, 1, 1, 0]
+]
+
+result = solve_maze_greedy(maze)
+if result:
+    print("Final Maze:")
+    for row in result:
+        print(row)
+else:
+    print("Không có đường đi từ điểm đầu đến điểm cuối trong maze.")
+
