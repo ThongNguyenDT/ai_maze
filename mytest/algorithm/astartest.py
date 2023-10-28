@@ -52,3 +52,21 @@ def solve_maze_a_star(maze):
 
     return maze_copy
 
+# Maze ví dụ
+maze = [
+    [0, 0, 1, 1, 1, 1, 1],
+    [0, 0, 0, 1, 0, 0, 1],
+    [1, 1, 0, 1, 0, 0, 0],
+    [1, 0, 0, 0, 0, 0, 0],
+    [1, 0, 1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 0, 0, 0],
+    [1, 1, 1, 1, 1, 1, 0]
+]
+
+result = solve_maze_a_star(maze)
+if result:
+    print("Maze cuối cùng:")
+    for row in result:
+        print(row)
+else:
+    print("Không có đường đi từ điểm đầu đến điểm cuối trong maze.")
