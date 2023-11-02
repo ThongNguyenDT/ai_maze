@@ -1,6 +1,9 @@
+import copy
+
 import pygame
 from Algorithm.BFSsolve import bfs
 from Algorithm.dfsMapGeneration import DFSMAPGen
+from Algorithm.greedySolve import greedy
 from config.config import WHITE, BLACK
 from object.draw.UIElement import UIElement
 from object.draw.button import Button
@@ -17,14 +20,15 @@ class game:
         self.start_autoplay = False
         self.path = []
         self.start_game = False
+        self.start_reset = False
+        self.algorithm = 'astar'
         # self.start_timer = False
         # self.elapsed_time = 0
         # # self.high_score = float(self.get_high_scores()[0])
         self.size = int(self.config.width // self.config.cellsize), int(self.config.heigh // self.config.cellsize)
         self.config.cellsize = self.config.cellsize_ratio(0.75)
-        self.grid_cells = [Cell(col, row, map_size=self.size, config=self.config) for row in range(self.size[1]) for col
-                           in
-                           range(self.size[0])]
+        self.start_grid = self.create()
+        self.grid_cells = copy.deepcopy(self.start_grid)
         self.current_cell = self.grid_cells[0]
         self.complete_cell = self.grid_cells[-1]
         self.colors, self.color = [], 40
@@ -48,15 +52,20 @@ class game:
         pygame.display.set_caption('MAZE - game')
         # self.elapsed_time = 0
         # self.start_timer = False
+        self.algorithm = 'astar'
         self.start_game = False
         self.start_autoplay = False
+        self.current_cell = self.grid_cells[0]
+        self.complete_cell = self.grid_cells[-1]
+        self.map = DFSMAPGen(self.grid_cells, self.config)
         self.directions = {'a': 'left', 'd': 'right', 'w': 'top', 's': 'bottom'}
         self.keys = {'a': pygame.K_a, 'd': pygame.K_d, 'w': pygame.K_w, 's': pygame.K_s}
         self.buttons_list = []
         x, y = self.size[0] * self.config.cellsize + 60, self.size[0] * self.config.cellsize
-        self.buttons_list.append(Button(x, y * 0.2, 100, 25, "BFS", WHITE, BLACK, size=15))
-        # self.buttons_list.append(Button(500, 170, 200, 50, "Reset", WHITE, BLACK))
-        # self.buttons_list.append(Button(425, 450, 100, 50, "BFS", WHITE, BLACK))
+        self.buttons_list.append(Button(x, y * 0.2, 100, 25, "create map", WHITE, BLACK, size=15))
+        self.buttons_list.append(Button(x, y * 0.3, 100, 25, "Reset", WHITE, BLACK, size=15))
+        self.buttons_list.append(Button(400, y * 0.9, 100, 25, "BFS", WHITE, BLACK, size=20))
+        self.buttons_list.append(Button(250, y * 0.9, 100, 25, "gready", WHITE, BLACK, size=20))
         # self.buttons_list.append(Button(550, 450, 100, 50, "DFS", WHITE, BLACK))
         # self.buttons_list.append(Button(675, 450, 100, 50, "UCS", WHITE, BLACK))
         # self.buttons_list.append(Button(300, 450, 100, 50, "Astar", WHITE, BLACK))
@@ -64,6 +73,11 @@ class game:
         self.draw()
         self.create_map()
         self.reset_visited()
+
+    def create(self):
+        print('create')
+        return [Cell(col, row, map_size=self.size, config=self.config) for row in range(self.size[1]) for col in
+                range(self.size[0])]
 
     def create_map(self):
         isBreak = False
@@ -113,6 +127,9 @@ class game:
         if self.start_autoplay:
             if self.autoplay():
                 self.start_autoplay = False
+        if self.start_reset:
+            if self.reset():
+                self.start_reset = False
 
     def draw(self):
         self.all_sprites.draw(self.screen)
@@ -164,9 +181,14 @@ class game:
                 for button in self.buttons_list:
                     if button.click(mouse_x, mouse_y):
                         if button.text == "BFS":
+                            self.algorithm = 'bfs'
                             self.start_autoplay = True
-        #                 if button.text == "Reset":
-        #                     self.new()
+                        if button.text == "gready":
+                            self.algorithm = 'gready'
+                            self.start_autoplay = True
+                        if button.text == "Reset":
+                            self.start_reset = True
+
         #                 if button.text == "BFS":
         #                     self.autoplay(0)
         #                     self.start_autoplay = True
@@ -182,8 +204,16 @@ class game:
 
     def autoplay(self):
         self.start_autoplay = False
-        self.path = bfs(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
+        if self.algorithm == 'bfs':
+            self.path = bfs(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
+        if self.algorithm == 'gready':
+            self.path = greedy(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
 
+    def reset(self):
+        self.start_reset = False
+        self.grid_cells = self.create()
+        self.draw()
+        self.new()
 
     def main(self):
         self.screen.fill(pygame.Color(self.config.maincolor))
