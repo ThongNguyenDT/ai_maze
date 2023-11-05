@@ -1,4 +1,4 @@
-from collections import deque
+from queue import PriorityQueue
 import pygame
 from config.logicConfig import Config
 
@@ -6,11 +6,12 @@ from config.logicConfig import Config
 def ucs(maze, start, goal, sc, config=None):
     if config is None:
         config = Config()
-    print('hear')
-    queue = deque([(start, [])])  # Initialize the queue with the start cell and an empty path
 
-    while queue:
-        current_cell, path = queue.popleft()  # Dequeue the current cell and its path
+    queue = PriorityQueue()
+    queue.put((0, start, []))  # Initialize the priority queue with a cost of 0, the start cell, and an empty path
+
+    while not queue.empty():
+        cost, current_cell, path = queue.get()
 
         if current_cell == goal:
             [cell.draw_current_cell(sc) for cell in path]
@@ -24,8 +25,9 @@ def ucs(maze, start, goal, sc, config=None):
             neighbors = current_cell.find_neighbors(maze)
 
             for neighbor in neighbors:
+                new_cost = cost + 1  # Assuming a uniform cost of 1 for each step
                 new_path = path + [current_cell]
-                queue.append((neighbor, new_path))
+                queue.put((new_cost, neighbor, new_path))
 
         [cell.draw(sc) for cell in maze]
         pygame.display.flip()
