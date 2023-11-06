@@ -49,13 +49,8 @@ class game:
     #
     # def time(self):
     #     pass
-
-    def new(self):
-        self.all_sprites = pygame.sprite.Group()
-        pygame.display.set_caption('MAZE - game')
-        # self.elapsed_time = 0
-        # self.start_timer = False
-        self.algorithm = 'astar'
+    def initsetup(self):
+        self.path = []
         self.start_game = False
         self.start_autoplay = False
         self.start_replay = False
@@ -64,6 +59,14 @@ class game:
         self.map = DFSMAPGen(self.grid_cells, self.config)
         self.directions = {'a': 'left', 'd': 'right', 'w': 'top', 's': 'bottom'}
         self.keys = {'a': pygame.K_a, 'd': pygame.K_d, 'w': pygame.K_w, 's': pygame.K_s}
+
+    def new(self):
+        self.all_sprites = pygame.sprite.Group()
+        pygame.display.set_caption('MAZE - game')
+        # self.elapsed_time = 0
+        # self.start_timer = False
+        self.algorithm = 'Astar'
+        self.initsetup()
         self.buttons_list = []
         x, y = self.size[0] * self.config.cellsize + 60, self.size[0] * self.config.cellsize
         self.buttons_list.append(Button(x, y * 0.2, 100, 25, "create map", WHITE, BLACK, size=15))
@@ -242,15 +245,7 @@ class game:
         self.start_replay = False
         self.grid_cells = self.start_grid
         self.draw()
-        self.path = []
-        self.start_game = False
-        self.start_autoplay = False
-        self.start_replay = False
-        self.current_cell = self.grid_cells[0]
-        self.complete_cell = self.grid_cells[-1]
-        self.map = DFSMAPGen(self.grid_cells, self.config)
-        self.directions = {'a': 'left', 'd': 'right', 'w': 'top', 's': 'bottom'}
-        self.keys = {'a': pygame.K_a, 'd': pygame.K_d, 'w': pygame.K_w, 's': pygame.K_s}
+        self.initsetup()
         print("call replay")
 
     def main(self):
