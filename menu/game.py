@@ -2,6 +2,8 @@ import copy
 
 import pygame
 from Algorithm.BFSsolve import bfs
+from Algorithm.DFSsovle import dfs
+from Algorithm.astarSolve import a_star
 from Algorithm.dfsMapGeneration import DFSMAPGen
 from Algorithm.greedySolve import greedy
 from config.config import WHITE, BLACK
@@ -27,8 +29,7 @@ class game:
         # # self.high_score = float(self.get_high_scores()[0])
         self.size = int(self.config.width // self.config.cellsize), int(self.config.heigh // self.config.cellsize)
         self.config.cellsize = self.config.cellsize_ratio(0.75)
-        self.start_grid = self.create()
-        self.grid_cells = copy.deepcopy(self.start_grid)
+        self.grid_cells = self.create()
         self.current_cell = self.grid_cells[0]
         self.complete_cell = self.grid_cells[-1]
         self.colors, self.color = [], 40
@@ -66,9 +67,9 @@ class game:
         self.buttons_list.append(Button(x, y * 0.3, 100, 25, "Reset", WHITE, BLACK, size=15))
         self.buttons_list.append(Button(400, y * 0.9, 100, 25, "BFS", WHITE, BLACK, size=20))
         self.buttons_list.append(Button(250, y * 0.9, 100, 25, "gready", WHITE, BLACK, size=20))
-        # self.buttons_list.append(Button(550, 450, 100, 50, "DFS", WHITE, BLACK))
-        # self.buttons_list.append(Button(675, 450, 100, 50, "UCS", WHITE, BLACK))
-        # self.buttons_list.append(Button(300, 450, 100, 50, "Astar", WHITE, BLACK))
+        self.buttons_list.append(Button(400, y * 0.9, 100, 25, "BFS", WHITE, BLACK, size=20))
+        self.buttons_list.append(Button(550, y * 0.9, 100, 25, "astar", WHITE, BLACK, size=20))
+
         self.path = []
         self.draw()
         self.create_map()
@@ -125,6 +126,8 @@ class game:
         #         self.start_timer = True
 
         if self.start_autoplay:
+            self.reset_visited()
+            self.draw()
             if self.autoplay():
                 self.start_autoplay = False
         if self.start_reset:
@@ -208,6 +211,10 @@ class game:
             self.path = bfs(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
         if self.algorithm == 'gready':
             self.path = greedy(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
+        if self.algorithm == 'DFS':
+            self.path = dfs(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
+        if self.algorithm == 'astar':
+            self.path = a_star(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
 
     def reset(self):
         self.start_reset = False
