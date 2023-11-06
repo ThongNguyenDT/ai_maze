@@ -6,6 +6,9 @@ from Algorithm.DFSsovle import dfs
 from Algorithm.astarSolve import a_star
 from Algorithm.dfsMapGeneration import DFSMAPGen
 from Algorithm.greedySolve import greedy
+from Algorithm.hillClimbSolve import hill_climbing
+from Algorithm.idSolve import ids
+from Algorithm.uscSolve import ucs
 from config.config import WHITE, BLACK
 from object.draw.UIElement import UIElement
 from object.draw.button import Button
@@ -23,7 +26,7 @@ class game:
         self.path = []
         self.start_game = False
         self.start_reset = False
-        self.algorithm = 'astar'
+        self.algorithm = 'Astar'
         # self.start_timer = False
         # self.elapsed_time = 0
         # # self.high_score = float(self.get_high_scores()[0])
@@ -72,10 +75,14 @@ class game:
         self.buttons_list.append(Button(x, y * 0.2, 100, 25, "create map", WHITE, BLACK, size=15))
         self.buttons_list.append(Button(x, y * 0.3, 100, 25, "Reset", WHITE, BLACK, size=15))
         self.buttons_list.append(Button(x, y * 0.4, 100, 25, "Replay", WHITE, BLACK, size=15))
-        self.buttons_list.append(Button(100, y * 0.9, 100, 25, "DFS", WHITE, BLACK, size=20))
-        self.buttons_list.append(Button(250, y * 0.9, 100, 25, "gready", WHITE, BLACK, size=20))
-        self.buttons_list.append(Button(400, y * 0.9, 100, 25, "BFS", WHITE, BLACK, size=20))
-        self.buttons_list.append(Button(550, y * 0.9, 100, 25, "astar", WHITE, BLACK, size=20))
+        self.buttons_list.append(Button(50, y * 0.8, 75, 25, "DFS", WHITE, BLACK, size=20))
+        self.buttons_list.append(Button(150, y * 0.8, 75, 25, "Greedy", WHITE, BLACK, size=20))
+        self.buttons_list.append(Button(250, y * 0.8, 75, 25, "BFS", WHITE, BLACK, size=20))
+        self.buttons_list.append(Button(350, y * 0.8, 75, 25, "Astar", WHITE, BLACK, size=20))
+        self.buttons_list.append(Button(450, y * 0.8, 75, 25, "UCS", WHITE, BLACK, size=20))
+        self.buttons_list.append(Button(550, y * 0.8, 75, 25, "Hill", WHITE, BLACK, size=20))
+        self.buttons_list.append(Button(650, y * 0.8, 75, 25, "IDS", WHITE, BLACK, size=20))
+
 
         self.path = []
         self.draw()
@@ -195,16 +202,25 @@ class game:
                 for button in self.buttons_list:
                     if button.click(mouse_x, mouse_y):
                         if button.text == "BFS":
-                            self.algorithm = 'bfs'
+                            self.algorithm = 'BFS'
                             self.start_autoplay = True
-                        if button.text == "gready":
-                            self.algorithm = 'gready'
+                        if button.text == "Greedy":
+                            self.algorithm = 'Greedy'
                             self.start_autoplay = True
                         if button.text == "DFS":
                             self.algorithm = 'DFS'
                             self.start_autoplay = True
-                        if button.text == "astar":
-                            self.algorithm = 'astar'
+                        if button.text == "Astar":
+                            self.algorithm = 'Astar'
+                            self.start_autoplay = True
+                        if button.text == "UCS":
+                            self.algorithm = 'UCS'
+                            self.start_autoplay = True
+                        if button.text == "Hill":
+                            self.algorithm = 'Hill'
+                            self.start_autoplay = True
+                        if button.text == "IDS":
+                            self.algorithm = 'IDS'
                             self.start_autoplay = True
                         if button.text == "Reset":
                             self.start_reset = True
@@ -226,14 +242,24 @@ class game:
 
     def autoplay(self):
         self.start_autoplay = False
-        if self.algorithm == 'bfs':
+        if self.algorithm == 'BFS':
             self.path = bfs(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
-        if self.algorithm == 'gready':
+        if self.algorithm == 'Greedy':
             self.path = greedy(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
         if self.algorithm == 'DFS':
             self.path = dfs(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
-        if self.algorithm == 'astar':
+        if self.algorithm == 'Astar':
+            print("call a")
             self.path = a_star(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
+        if self.algorithm == 'UCS':
+            print("call U")
+            self.path = ucs(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
+        if self.algorithm == 'Hill':
+            print("call H")
+            self.path = hill_climbing(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
+        if self.algorithm == 'IDS':
+            print("call i")
+            self.path = ids(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
 
     def reset(self):
         self.start_reset = False
