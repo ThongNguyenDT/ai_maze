@@ -2,7 +2,7 @@ import pygame
 from config.logicConfig import Config
 
 
-def id(maze, start, goal, sc, config=None):
+def ids(maze, start, goal, sc, config=None):
     if config is None:
         config = Config()
 
