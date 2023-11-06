@@ -35,6 +35,8 @@ class game:
         self.colors, self.color = [], 40
         self.map = DFSMAPGen(self.grid_cells, self.config)
         # cols, rows = self.size
+        self.start_grid = copy.deepcopy(self.grid_cells)
+        self.start_replay = False
 
     # def get_high_scores(self):
     #     with open("high_score.txt", "r") as file:
@@ -56,6 +58,7 @@ class game:
         self.algorithm = 'astar'
         self.start_game = False
         self.start_autoplay = False
+        self.start_replay = False
         self.current_cell = self.grid_cells[0]
         self.complete_cell = self.grid_cells[-1]
         self.map = DFSMAPGen(self.grid_cells, self.config)
@@ -65,7 +68,8 @@ class game:
         x, y = self.size[0] * self.config.cellsize + 60, self.size[0] * self.config.cellsize
         self.buttons_list.append(Button(x, y * 0.2, 100, 25, "create map", WHITE, BLACK, size=15))
         self.buttons_list.append(Button(x, y * 0.3, 100, 25, "Reset", WHITE, BLACK, size=15))
-        self.buttons_list.append(Button(400, y * 0.9, 100, 25, "BFS", WHITE, BLACK, size=20))
+        self.buttons_list.append(Button(x, y * 0.4, 100, 25, "Replay", WHITE, BLACK, size=15))
+        self.buttons_list.append(Button(100, y * 0.9, 100, 25, "DFS", WHITE, BLACK, size=20))
         self.buttons_list.append(Button(250, y * 0.9, 100, 25, "gready", WHITE, BLACK, size=20))
         self.buttons_list.append(Button(400, y * 0.9, 100, 25, "BFS", WHITE, BLACK, size=20))
         self.buttons_list.append(Button(550, y * 0.9, 100, 25, "astar", WHITE, BLACK, size=20))
@@ -73,7 +77,7 @@ class game:
         self.path = []
         self.draw()
         self.create_map()
-        self.reset_visited()
+
 
     def create(self):
         print('create')
@@ -87,6 +91,7 @@ class game:
             self.current_cell, isBreak = self.map.draw_maze(self.screen, self.current_cell, isBreak)
             self.clock.tick(self.config.fps)
             pygame.display.update()
+        self.start_grid = copy.deepcopy(self.grid_cells)
 
     def reset_visited(self):
         for cell in self.grid_cells:
@@ -133,6 +138,9 @@ class game:
         if self.start_reset:
             if self.reset():
                 self.start_reset = False
+        if self.start_replay:
+            if self.replay():
+                self.start_replay = False
 
     def draw(self):
         self.all_sprites.draw(self.screen)
@@ -189,8 +197,16 @@ class game:
                         if button.text == "gready":
                             self.algorithm = 'gready'
                             self.start_autoplay = True
+                        if button.text == "DFS":
+                            self.algorithm = 'DFS'
+                            self.start_autoplay = True
+                        if button.text == "astar":
+                            self.algorithm = 'astar'
+                            self.start_autoplay = True
                         if button.text == "Reset":
                             self.start_reset = True
+                        if button.text == "Replay":
+                            self.start_replay = True
 
         #                 if button.text == "BFS":
         #                     self.autoplay(0)
@@ -222,6 +238,21 @@ class game:
         self.draw()
         self.new()
 
+    def replay(self):
+        self.start_replay = False
+        self.grid_cells = self.start_grid
+        self.draw()
+        self.path = []
+        self.start_game = False
+        self.start_autoplay = False
+        self.start_replay = False
+        self.current_cell = self.grid_cells[0]
+        self.complete_cell = self.grid_cells[-1]
+        self.map = DFSMAPGen(self.grid_cells, self.config)
+        self.directions = {'a': 'left', 'd': 'right', 'w': 'top', 's': 'bottom'}
+        self.keys = {'a': pygame.K_a, 'd': pygame.K_d, 'w': pygame.K_w, 's': pygame.K_s}
+        print("call replay")
+
     def main(self):
         self.screen.fill(pygame.Color(self.config.maincolor))
         self.running = True
@@ -232,3 +263,5 @@ class game:
             self.run()
             self.clock.tick(self.config.fps)
             pygame.display.update()
+
+
