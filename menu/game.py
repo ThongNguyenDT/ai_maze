@@ -30,7 +30,7 @@ class game:
         # self.start_timer = False
         # self.elapsed_time = 0
         # # self.high_score = float(self.get_high_scores()[0])
-        self.size = int(self.config.width // self.config.cellsize), int(self.config.heigh // self.config.cellsize)
+        self.size = int(self.config.width // self.config.cellsize), int(self.config.height // self.config.cellsize)
         self.config.cellsize = self.config.cellsize_ratio(0.75)
         self.grid_cells = self.create()
         self.current_cell = self.grid_cells[0]
