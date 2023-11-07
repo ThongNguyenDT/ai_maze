@@ -18,7 +18,7 @@ class DFSMAPGen:
         if config is None:
             config = Config()
         self.config = config
-        self.size = self.config.width // self.config.cellsize, self.config.heigh // self.config.cellsize
+        self.size = self.config.width // self.config.cellsize, self.config.height // self.config.cellsize
         self.grid_cells = grid_cells
         self.colors, self.color = [], 40
         self.stack = []
