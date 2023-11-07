@@ -7,7 +7,7 @@ from menu.menu import main_menu
 config = Config()
 config.config_load()
 
-RES = config.width, config.heigh
+RES = config.width, config.height
 
 pygame.init()
 sc = pygame.display.set_mode(RES)
