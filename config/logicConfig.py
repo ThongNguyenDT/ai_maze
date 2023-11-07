@@ -9,7 +9,7 @@ class Config:
         self.visitedcolor = VISITEDCOLOR
         self.bordercolor = BORDERCOLOR
         self.maincolor = MAINCOLOR
-        self.width, self.heigh = INIT_WIDTH, INIT_HEIGHT
+        self.width, self.height = width, height
         self.fps = FPS
         self.level = 1
         self.config = custom
@@ -19,8 +19,8 @@ class Config:
     def cellsize_level(self):
         cellsize = CELLSIZE
         if self.level != 1:
-            cell = self.heigh // CELLSIZE + 5 * self.level
-            cellsize = self.heigh // cell
+            cell = self.height // CELLSIZE + 5 * self.level
+            cellsize = self.height // cell
         return cellsize
 
     def cellsize_ratio(self, ratio=None):
