@@ -19,6 +19,9 @@ class UIElement:
         screen.blit(text, (self.x, self.y))
 
     def draw_center_x(self, screen, fontsize=None, font=None, color=WHITE):
+
         text = font.render(self.text, True, color)
+
         font_size = font.size(self.text)
+        draw_y = self.y
         screen.blit(text, (draw_x, draw_y))
