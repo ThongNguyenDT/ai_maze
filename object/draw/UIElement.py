@@ -19,6 +19,10 @@ class UIElement:
         screen.blit(text, (self.x, self.y))
 
     def draw_center_x(self, screen, fontsize=None, font=None, color=WHITE):
+        if fontsize is None:
+            fontsize = self.size
+        if font is None:
+            font = pygame.font.SysFont("Consolas", fontsize)
 
         text = font.render(self.text, True, color)
 
