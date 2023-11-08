@@ -23,5 +23,6 @@ class UIElement:
         text = font.render(self.text, True, color)
 
         font_size = font.size(self.text)
+        draw_x = self.x - font_size[0] / 2
         draw_y = self.y
         screen.blit(text, (draw_x, draw_y))
