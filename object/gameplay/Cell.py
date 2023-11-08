@@ -31,35 +31,43 @@ class Cell:
         else:
             pygame.draw.line(sc, pygame.Color(VISITEDCOLOR), (x, y), (x + self.cel_size, y), self.thickness)
         if self.walls['right']:
-            pygame.draw.line(sc, pygame.Color(BORDERCOLOR), (x + self.cel_size, y), (x + self.cel_size, y + self.cel_size),
+            pygame.draw.line(sc, pygame.Color(BORDERCOLOR), (x + self.cel_size, y),
+                             (x + self.cel_size, y + self.cel_size),
                              self.thickness)
         else:
-            pygame.draw.line(sc, pygame.Color(VISITEDCOLOR), (x + self.cel_size, y), (x + self.cel_size, y + self.cel_size),
+            pygame.draw.line(sc, pygame.Color(VISITEDCOLOR), (x + self.cel_size, y),
+                             (x + self.cel_size, y + self.cel_size),
                              self.thickness)
 
         if self.walls['bottom']:
-            pygame.draw.line(sc, pygame.Color(BORDERCOLOR), (x + self.cel_size, y + self.cel_size), (x, y + self.cel_size),
+            pygame.draw.line(sc, pygame.Color(BORDERCOLOR), (x + self.cel_size, y + self.cel_size),
+                             (x, y + self.cel_size),
                              self.thickness)
         else:
-            pygame.draw.line(sc, pygame.Color(VISITEDCOLOR), (x + self.cel_size, y + self.cel_size), (x, y + self.cel_size),
+            pygame.draw.line(sc, pygame.Color(VISITEDCOLOR), (x + self.cel_size, y + self.cel_size),
+                             (x, y + self.cel_size),
                              self.thickness)
         if self.walls['left']:
             pygame.draw.line(sc, pygame.Color(BORDERCOLOR), (x, y + self.cel_size), (x, y), self.thickness)
         else:
             pygame.draw.line(sc, pygame.Color(VISITEDCOLOR), (x, y + self.cel_size), (x, y), self.thickness)
 
-    def get_rects(self):
-        rects = []
-        x, y = self.x * self.cel_size, self.y * self.cel_size
-        if self.walls['top']:
-            rects.append(pygame.Rect((x, y), (self.cel_size, self.thickness)))
-        if self.walls['right']:
-            rects.append(pygame.Rect((x + self.cel_size, y), (self.thickness, self.cel_size)))
-        if self.walls['bottom']:
-            rects.append(pygame.Rect((x, y + self.cel_size), (self.cel_size, self.thickness)))
-        if self.walls['left']:
-            rects.append(pygame.Rect((x, y), (self.thickness, self.cel_size)))
-        return rects
+    def possible_move(self, grid_cells):
+        self.grid_cells = grid_cells
+        neighbors = {}
+        top = self.check_cell(self.x, self.y - 1)
+        right = self.check_cell(self.x + 1, self.y)
+        bottom = self.check_cell(self.x, self.y + 1)
+        left = self.check_cell(self.x - 1, self.y)
+        if not self.walls['top'] and top:
+            neighbors['top'] = top
+        if not self.walls['right'] and right:
+            neighbors['right'] = right
+        if not self.walls['bottom'] and bottom:
+            neighbors['bottom'] = bottom
+        if not self.walls['left'] and left:
+            neighbors['left'] = left
+        return neighbors
 
     def check_cell(self, x, y):
         cols, rows = self.size
@@ -84,5 +92,3 @@ class Cell:
         if left and not left.visited:
             neighbors.append(left)
         return choice(neighbors) if neighbors else False
-
-

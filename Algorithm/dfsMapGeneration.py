@@ -57,7 +57,7 @@ class DFSMAPGen:
                 current_cell = array.pop()
         return grid_cells
 
-    def draw_maze(self, sc, current_cell, break_count=1):
+    def draw_maze(self, sc, current_cell, isBreak = False):
         current_cell.visited = True
         current_cell.draw_current_cell(sc)
         [pygame.draw.rect(sc, self.colors[i],
@@ -70,10 +70,11 @@ class DFSMAPGen:
             self.stack.append(current_cell)
             self.colors.append((min(self.color, 255), 10, 100))
             self.color += 1
-            break_count += 1
             self.remove_walls(current_cell, next_cell)
             current_cell = next_cell
         elif self.stack:
             current_cell = self.stack.pop()
+            if len(self.stack) == 0:
+                isBreak = True
 
-        return current_cell, break_count
+        return current_cell, isBreak
