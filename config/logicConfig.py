@@ -1,3 +1,5 @@
+import configparser
+
 from config.config import *
 
 
@@ -6,8 +8,8 @@ class Config:
         self.startcolor = STARTCOLOR
         self.visitedcolor = VISITEDCOLOR
         self.bordercolor = BORDERCOLOR
-        self.width = INIT_WIDTH
-        self.heigh = INIT_HEIGHT
+        self.maincolor = MAINCOLOR
+        self.width, self.heigh = INIT_WIDTH, INIT_HEIGHT
         self.fps = FPS
         self.level = 1
         self.config = custom
@@ -18,3 +20,15 @@ class Config:
             cell = self.heigh // CELLSIZE + 5 * self.level
             cellsize = self.heigh // cell
         return cellsize
+
+    def config_load(self):
+        config = configparser.ConfigParser()
+        config.read('config/config.ini')
+
+    def config_save(self):
+        config = configparser.ConfigParser()
+        config.read('config/config.ini')
+
+
+        with open('config.ini', 'w') as configfile:
+            config.write(configfile)
