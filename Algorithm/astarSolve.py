@@ -47,7 +47,7 @@ def a_star(maze, start, goal, sc, config=None):
 
 def heuristic(cell, goal):
     # Define your heuristic function here, e.g., Manhattan distance
-    return abs(cell.x - goal.x) + abs(cell.y - goal.y)
+    return ((cell.x - goal.x) ** 2 + (cell.y - goal.y) ** 2) ** 0.5
 
 
 def reconstruct_path(came_from, current):
