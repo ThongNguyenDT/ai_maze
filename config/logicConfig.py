@@ -14,6 +14,7 @@ class Config:
         self.level = level
         self.ratio = 1
         self.cellsize = self.cellsize_ratio()
+        self.Visualization_speed = Visualization_speed
 
     def cellsize_level(self):
         cellsize = CELLSIZE
