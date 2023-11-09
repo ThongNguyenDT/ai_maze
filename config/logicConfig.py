@@ -4,15 +4,14 @@ from config.config import *
 
 
 class Config:
-    def __init__(self, custom=CUSTOM_CONFIG):
+    def __init__(self, width=INIT_WIDTH, height=INIT_HEIGHT, level=1):
         self.startcolor = STARTCOLOR
         self.visitedcolor = VISITEDCOLOR
         self.bordercolor = BORDERCOLOR
         self.maincolor = MAINCOLOR
         self.width, self.height = width, height
         self.fps = FPS
-        self.level = 1
-        self.config = custom
+        self.level = level
         self.ratio = 1
         self.cellsize = self.cellsize_ratio()
 
@@ -29,6 +28,9 @@ class Config:
         self.cellsize = self.cellsize_level() * ratio
         return self.cellsize
 
+    def set_level(self, level):
+        self.level = level
+        self.cellsize = self.cellsize_ratio()
     def config_load(self):
         config = configparser.ConfigParser()
         config.read('config/config.ini')
