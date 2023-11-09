@@ -26,8 +26,8 @@ class Config:
     def cellsize_ratio(self, ratio=None):
         if ratio is None:
             ratio = self.ratio
-        cellsize = self.cellsize_level() * ratio
-        return cellsize
+        self.cellsize = self.cellsize_level() * ratio
+        return self.cellsize
 
     def config_load(self):
         config = configparser.ConfigParser()
