@@ -4,6 +4,7 @@ import pygame
 
 from config.config import WHITE, BLACK
 
+from menu.game import game
 from object.draw.UIElement import UIElement
 from object.draw.button import Button
 
@@ -16,6 +17,7 @@ class option:
         self.clock = pygame.time.Clock()
         self.buttons_list = []
         self.center_x, self.center_y = self.config.width / 2, self.config.height / 2
+        self.callback = callback
 
     def main(self):
         self.screen.fill(pygame.Color(self.config.maincolor))
@@ -61,3 +63,9 @@ class option:
                     sys.exit()
 
 
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                for button in self.buttons_list:
+                    if button.click(mouse_x, mouse_y):
+                        if button.text == 'game':
+                            game(self.screen, self.config).main()
