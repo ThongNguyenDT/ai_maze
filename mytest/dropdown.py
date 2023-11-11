@@ -1,5 +1,6 @@
 import pygame
 from pygame_gui import UIManager
+from pygame_gui.elements import UIDropDownMenu
 
 pygame.init()
 
@@ -9,7 +10,8 @@ test_surface.fill(pygame.Color(128, 128, 128, 255))
 manager = UIManager((800, 600))
 
 options_list = [f"option {x}" for x in range(3)]
-
+dropdown = UIDropDownMenu(options_list, "option 0", relative_rect=pygame.Rect(50, 50, 400, 50),
+                          manager=manager, expansion_height_limit=70)
 
 running = True
 time = 0.0
