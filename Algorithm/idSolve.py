@@ -45,6 +45,7 @@ def ids(maze, start, goal, sc, config=None):
             #     # Gradually increase the speed based on depth
             #
             #     speed = 20 +  max_depth**15
+                pygame.time.Clock().tick(60)
                 [cell.draw(sc) for cell in maze]
                 pygame.display.flip()
 
