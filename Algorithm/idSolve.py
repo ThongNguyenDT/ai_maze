@@ -38,6 +38,18 @@ def ids(maze, start, goal, sc, config=None):
             else:draw_frequency=1
 
             if draw_count % draw_frequency == 0:
+            # if max_depth > 25:
+            #     draw_frequency = 5
+            # else:draw_frequency=1
+            #
+            # if draw_count % draw_frequency == 0:
+            #     [cell.draw(sc) for cell in maze]
+            #     pygame.display.flip()
+            #
+            #
+            #     # Gradually increase the speed based on depth
+            #
+            #     speed = 20 +  max_depth**15
                 [cell.draw(sc) for cell in maze]
                 pygame.display.flip()
 
