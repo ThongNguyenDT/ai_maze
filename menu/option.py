@@ -39,6 +39,7 @@ class option:
         self.buttons_list.append(
             Button(self.center_x, 275, 200, 50, 'level', WHITE, BLACK, size=20, center=True))
 
+    def uinew(self):
         self.res = [str(screeni[0]) + "x" + str(screeni[1]) if type(screeni) is tuple else screeni for screeni in
                     screens]
         self.level = [str(x) for x in levels]
