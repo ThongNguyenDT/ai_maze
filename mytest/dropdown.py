@@ -1,5 +1,4 @@
 import pygame
-
 from pygame_gui import UIManager
 
 pygame.init()
