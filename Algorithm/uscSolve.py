@@ -26,6 +26,8 @@ def ucs(maze, start, goal, sc, config=None):
 
             for neighbor in neighbors:
                 new_cost = cost + 1  # Assuming a uniform cost of 1 for each step
+                new_cost = current_cost + neighbor.cost
+
                 new_path = path + [current_cell]
                 queue.put((new_cost, neighbor, new_path))
 
