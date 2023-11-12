@@ -12,6 +12,7 @@ def ucs(maze, start, goal, sc, config=None):
 
     while not queue.empty():
         cost, current_cell, path = queue.get()
+        current_cost, current_cell, path = heapq.heappop(queue)
 
         if current_cell == goal:
             [cell.draw_current_cell(sc) for cell in path]
