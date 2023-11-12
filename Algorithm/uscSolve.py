@@ -25,7 +25,6 @@ def ucs(maze, start, goal, sc, config=None):
             neighbors = current_cell.find_neighbors(maze)
 
             for neighbor in neighbors:
-                new_cost = cost + 1  # Assuming a uniform cost of 1 for each step
                 new_cost = current_cost + neighbor.cost
 
                 new_path = path + [current_cell]

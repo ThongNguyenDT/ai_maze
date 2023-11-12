@@ -15,6 +15,7 @@ class Cell:
         self.visited = False
         self.thickness = 4
         self.cel_size = config.cellsize
+        self.cost = 10
 
     def draw_current_cell(self, sc, color=None):
         if color is None:
