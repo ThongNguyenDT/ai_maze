@@ -15,11 +15,12 @@ class Cell:
         self.visited = False
         self.thickness = 4
         self.cel_size = config.cellsize
-        print("cellsizeincell", self.cel_size)
 
-    def draw_current_cell(self, sc):
+    def draw_current_cell(self, sc, color=None):
+        if color is None:
+            color = STARTCOLOR
         x, y = self.x * self.cel_size, self.y * self.cel_size
-        pygame.draw.rect(sc, pygame.Color(STARTCOLOR), (x + 2, y + 2, self.cel_size - 2, self.cel_size - 2))
+        pygame.draw.rect(sc, pygame.Color(color), (x + 2, y + 2, self.cel_size - 2, self.cel_size - 2))
 
     def draw(self, sc):
         x, y = self.x * self.cel_size, self.y * self.cel_size
@@ -91,4 +92,21 @@ class Cell:
             neighbors.append(bottom)
         if left and not left.visited:
             neighbors.append(left)
-        return choice(neighbors) if neighbors else False
+        return neighbors
+
+    def find_neighbors(self, grid_cells):
+        self.grid_cells = grid_cells
+        neighbors = []
+        top = self.check_cell(self.x, self.y - 1)
+        right = self.check_cell(self.x + 1, self.y)
+        bottom = self.check_cell(self.x, self.y + 1)
+        left = self.check_cell(self.x - 1, self.y)
+        if top and not top.visited and not self.walls['top']:
+            neighbors.append(top)
+        if right and not right.visited and not self.walls['right']:
+            neighbors.append(right)
+        if bottom and not bottom.visited and not self.walls['bottom']:
+            neighbors.append(bottom)
+        if left and not left.visited and not self.walls['left']:
+            neighbors.append(left)
+        return neighbors
