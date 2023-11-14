@@ -43,6 +43,12 @@ class option:
     def uinew(self):
         self.res = [str(screeni[0]) + "x" + str(screeni[1]) if type(screeni) is tuple else screeni for screeni in
                     screens]
+        self.select_screen = pygame_gui.elements.UIDropDownMenu(options_list=self.res,
+                                                                starting_option=self.res[0],
+                                                                relative_rect=pygame.Rect((self.center_x - 100, 170),
+                                                                                          (200, 50)),
+                                                                manager=self.manager)
+
         self.level = [str(x) for x in levels]
 
     def run(self):
@@ -71,6 +77,13 @@ class option:
                     pygame.quit()
                     sys.exit()
 
+            if event.type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
+                if event.ui_element == self.select_screen:
+                    if screens[self.res.index(event.text)] != screens[-1]:
+                        self.config.width, self.config.height = RES = screens[self.res.index(event.text)]
+                    else:
+                        self.config.width, self.config.height = screens[2]
+                    self.new()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
