@@ -80,9 +80,11 @@ class option:
             if event.type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
                 if event.ui_element == self.select_screen:
                     if screens[self.res.index(event.text)] != screens[-1]:
+                        self.width, self.height = screens[self.res.index(event.text)]
                         self.config.width, self.config.height = RES = screens[self.res.index(event.text)]
                         self.screen = pygame.display.set_mode(RES)
                     else:
+                        self.width, self.height = screens[2]
                         self.config.width, self.config.height = screens[2]
                         self.screen = pygame.display.set_mode(screens[2], pygame.FULLSCREEN)
                     self.new()
