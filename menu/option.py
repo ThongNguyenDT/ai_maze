@@ -81,8 +81,10 @@ class option:
                 if event.ui_element == self.select_screen:
                     if screens[self.res.index(event.text)] != screens[-1]:
                         self.config.width, self.config.height = RES = screens[self.res.index(event.text)]
+                        self.screen = pygame.display.set_mode(RES)
                     else:
                         self.config.width, self.config.height = screens[2]
+                        self.screen = pygame.display.set_mode(screens[2], pygame.FULLSCREEN)
                     self.new()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
