@@ -1,6 +1,7 @@
 import sys
 
 import pygame
+import pygame_gui
 
 from config.config import WHITE, BLACK
 from config.logicConfig import Config
@@ -56,6 +57,8 @@ class option:
             button.draw(self.screen)
         UIElement(self.center_x, 20, 'Option').draw_center_x(self.screen,
                                                              font=pygame.font.Font('assets/font/emulogic.ttf', 30))
+        self.manager.draw_ui(self.screen)
+        self.manager.update(self.clock.tick(self.config.fps) / 1000.0)
         pygame.display.update()
 
     def event(self):
@@ -77,4 +80,4 @@ class option:
                             new_config = Config(width=self.width, height=self.height, level=self.selected_level)
                             game(self.screen, self.config).main()
 
-
+            self.manager.process_events(event)
