@@ -50,6 +50,12 @@ class option:
                                                                 manager=self.manager)
 
         self.level = [str(x) for x in levels]
+        self.select_level = pygame_gui.elements.UIDropDownMenu(options_list=self.level,
+                                                               starting_option=self.level[0],
+                                                               relative_rect=pygame.Rect((self.center_x - 100, 350),
+                                                                                         (200, 50)),
+                                                               manager=self.manager,
+                                                               expansion_height_limit=100)
 
     def run(self):
         self.playing = True
