@@ -1,7 +1,7 @@
 import pygame
 from random import choice
 
-from config.config import STARTCOLOR, VISITEDCOLOR, BORDERCOLOR
+from config.config import STARTCOLOR, VISITEDCOLOR, BORDERCOLOR, CELLCOLOR
 from config.logicConfig import Config
 
 
@@ -27,6 +27,8 @@ class Cell:
         x, y = self.x * self.cel_size, self.y * self.cel_size
         if self.visited:
             pygame.draw.rect(sc, pygame.Color(VISITEDCOLOR), (x + 2, y + 2, self.cel_size - 2, self.cel_size - 2))
+        if not self.visited:
+            pygame.draw.rect(sc, pygame.Color(CELLCOLOR), (x + 2, y + 2, self.cel_size - 2, self.cel_size - 2))
 
         if self.walls['top']:
             pygame.draw.line(sc, pygame.Color(BORDERCOLOR), (x, y), (x + self.cel_size, y), self.thickness)
