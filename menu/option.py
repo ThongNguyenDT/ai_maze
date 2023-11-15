@@ -88,6 +88,8 @@ class option:
                         self.config.width, self.config.height = screens[2]
                         self.screen = pygame.display.set_mode(screens[2], pygame.FULLSCREEN)
                     self.new()
+                if event.ui_element == self.select_level:
+                    self.selected_level = float(event.text)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
