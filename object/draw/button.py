@@ -2,7 +2,7 @@ import pygame
 
 
 class Button:
-    def __init__(self, x, y, width, height, text, colour, text_colour, font=None, size=None):
+    def __init__(self, x, y, width, height, text, colour, text_colour, font=None, size=None, center=False):
         self.colour, self.text_colour = colour, text_colour
         self.width, self.height = width, height
         self.x, self.y = x, y
