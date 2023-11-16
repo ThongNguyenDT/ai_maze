@@ -1,8 +1,10 @@
 import pygame
+import pygame_gui
 
 from config.logicConfig import Config
 from menu.game import game
 from menu.menu import main_menu
+from menu.option import option
 
 config = Config()
 config.config_load()
@@ -35,4 +37,5 @@ while True:
                 pygame.quit()
                 exit()
     pygame.display.flip()
+    pygame.display.update()
     clock.tick(config.fps)
