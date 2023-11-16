@@ -17,6 +17,7 @@ manager = pygame_gui.UIManager(RES)
 clock = pygame.time.Clock()
 
 click = False
+
 main = game(sc, config).main
 
 options = option(sc, config, manager, main).main
