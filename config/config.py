@@ -27,3 +27,5 @@ INIT_HEIGHT = 641
 FPS = 60
 CELLSIZE = 50
 
+Visualization_speed = 20
+
