@@ -41,6 +41,8 @@ class game:
         # cols, rows = self.size
         self.start_grid = copy.deepcopy(self.grid_cells)
         self.start_replay = False
+        self.algorithms = ['DFS', 'Greedy', 'BFS', 'Astar', 'UCS', 'Hill', 'IDS', 'player']
+        self.time_of_algorithm = [0, 0, 0, 0, 0, 0, 0, 0]
 
     # def get_high_scores(self):
     #     with open("high_score.txt", "r") as file:
