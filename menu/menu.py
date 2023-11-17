@@ -2,11 +2,12 @@ import sys
 
 import pygame
 
+from config.config import WHITE, BLACK
 from object.draw.UIElement import UIElement
 
 
 # def main_menu(screen, click=False, callback={}):
-def main_menu(screen, click=False, callbacks=None):
+def main_menu(screen, config, click=False, callbacks=None, name=None):
     # draw_text('main menu', font, (255, 255, 255), screen, 20, 20)
 
     if callbacks is None:
@@ -28,11 +29,11 @@ def main_menu(screen, click=False, callbacks=None):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-            sys.exit()
+            exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 pygame.quit()
-                sys.exit()
+                exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 click = True
