@@ -83,6 +83,7 @@ class game:
         self.buttons_list.append(Button(550, y * 0.8, 75, 25, "Hill", WHITE, BLACK, size=20))
         self.buttons_list.append(Button(650, y * 0.8, 75, 25, "IDS", WHITE, BLACK, size=20))
 
+        self.draw_x, self.draw_y = self.size[0] * self.config.cellsize, self.size[1] * self.config.cellsize + 30
 
         self.path = []
         self.draw()
