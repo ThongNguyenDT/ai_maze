@@ -4,15 +4,19 @@ import pygame
 
 from config.config import WHITE, BLACK
 from object.draw.UIElement import UIElement
+from object.draw.button import Button
 
 
 # def main_menu(screen, click=False, callback={}):
 def main_menu(screen, config, click=False, callbacks=None, name=None):
     # draw_text('main menu', font, (255, 255, 255), screen, 20, 20)
+    x = config.width / 2
 
     if callbacks is None:
         callbacks = []
-    UIElement(20, 20, 'main menu').draw(screen, font=pygame.font.Font('assets/font/emulogic.ttf'))
+    if name is None:
+        name = ['']
+    UIElement(x, 20, 'main menu').draw_center_x(screen, font=pygame.font.Font('assets/font/emulogic.ttf'))
 
     mx, my = pygame.mouse.get_pos()
     y = 100
