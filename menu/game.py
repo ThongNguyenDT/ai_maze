@@ -1,4 +1,5 @@
 import copy
+import time
 
 import pygame
 from Algorithm.BFSsolve import bfs
@@ -82,6 +83,15 @@ class game:
             Button(self.right_menu_center_x, self.draw_y * 0.6, 100, 25, "Replay", WHITE, BLACK, size=15, center=True))
         self.buttons_list.append(
             Button(self.right_menu_center_x, self.draw_y * 0.7, 100, 25, "Play", WHITE, BLACK, size=15, center=True))
+        self.algorithm_button_list = [Button(100 + 100 * i, self.draw_y, 75, 25, algorithm, WHITE, BLACK, size=20) for
+                                      i, algorithm in enumerate(self.algorithms)]
+        # self.algorithm_button_list.append(Button(50, self.draw_y, 75, 25, "DFS", WHITE, BLACK, size=20))
+        # self.algorithm_button_list.append(Button(150, self.draw_y, 75, 25, "Greedy", WHITE, BLACK, size=20))
+        # self.algorithm_button_list.append(Button(250, self.draw_y, 75, 25, "BFS", WHITE, BLACK, size=20))
+        # self.algorithm_button_list.append(Button(350, self.draw_y, 75, 25, "Astar", WHITE, BLACK, size=20))
+        # self.algorithm_button_list.append(Button(450, self.draw_y, 75, 25, "UCS", WHITE, BLACK, size=20))
+        # self.algorithm_button_list.append(Button(550, self.draw_y, 75, 25, "Hill", WHITE, BLACK, size=20))
+        # self.algorithm_button_list.append(Button(650, self.draw_y, 75, 25, "IDS", WHITE, BLACK, size=20))
 
         self.path = []
         self.draw()
