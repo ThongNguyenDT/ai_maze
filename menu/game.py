@@ -71,18 +71,6 @@ class game:
         self.algorithm = 'Astar'
         self.initsetup()
         self.buttons_list = []
-        x, y = self.size[0] * self.config.cellsize + 60, self.size[0] * self.config.cellsize
-        self.buttons_list.append(Button(x, y * 0.2, 100, 25, "create map", WHITE, BLACK, size=15))
-        self.buttons_list.append(Button(x, y * 0.3, 100, 25, "Reset", WHITE, BLACK, size=15))
-        self.buttons_list.append(Button(x, y * 0.4, 100, 25, "Replay", WHITE, BLACK, size=15))
-        self.buttons_list.append(Button(50, y * 0.8, 75, 25, "DFS", WHITE, BLACK, size=20))
-        self.buttons_list.append(Button(150, y * 0.8, 75, 25, "Greedy", WHITE, BLACK, size=20))
-        self.buttons_list.append(Button(250, y * 0.8, 75, 25, "BFS", WHITE, BLACK, size=20))
-        self.buttons_list.append(Button(350, y * 0.8, 75, 25, "Astar", WHITE, BLACK, size=20))
-        self.buttons_list.append(Button(450, y * 0.8, 75, 25, "UCS", WHITE, BLACK, size=20))
-        self.buttons_list.append(Button(550, y * 0.8, 75, 25, "Hill", WHITE, BLACK, size=20))
-        self.buttons_list.append(Button(650, y * 0.8, 75, 25, "IDS", WHITE, BLACK, size=20))
-
         self.draw_x, self.draw_y = self.size[0] * self.config.cellsize, self.size[1] * self.config.cellsize + 30
 
         self.path = []
