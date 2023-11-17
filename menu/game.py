@@ -72,6 +72,16 @@ class game:
         self.initsetup()
         self.buttons_list = []
         self.draw_x, self.draw_y = self.size[0] * self.config.cellsize, self.size[1] * self.config.cellsize + 30
+        self.right_menu_center_x = (self.config.width - self.draw_x) / 2 + self.draw_x
+        self.buttons_list.append(
+            Button(self.right_menu_center_x, self.draw_y * 0.4, 100, 25, "create map", WHITE, BLACK, size=15,
+                   center=True))
+        self.buttons_list.append(
+            Button(self.right_menu_center_x, self.draw_y * 0.5, 100, 25, "Reset", WHITE, BLACK, size=15, center=True))
+        self.buttons_list.append(
+            Button(self.right_menu_center_x, self.draw_y * 0.6, 100, 25, "Replay", WHITE, BLACK, size=15, center=True))
+        self.buttons_list.append(
+            Button(self.right_menu_center_x, self.draw_y * 0.7, 100, 25, "Play", WHITE, BLACK, size=15, center=True))
 
         self.path = []
         self.draw()
