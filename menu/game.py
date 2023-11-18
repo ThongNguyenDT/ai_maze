@@ -30,6 +30,7 @@ class game:
         self.algorithm = 'Astar'
         # self.start_timer = False
         # self.elapsed_time = 0
+        self.algorithm = 'player'
         # # self.high_score = float(self.get_high_scores()[0])
         self.size = int(self.config.width // self.config.cellsize), int(self.config.height // self.config.cellsize)
         self.config.cellsize = self.config.cellsize_ratio(0.75)
@@ -72,6 +73,7 @@ class game:
         # self.elapsed_time = 0
         # self.start_timer = False
         self.algorithm = 'Astar'
+        self.time_of_algorithm = [0, 0, 0, 0, 0, 0, 0, 0]
         self.initsetup()
         self.buttons_list = []
         self.draw_x, self.draw_y = self.size[0] * self.config.cellsize, self.size[1] * self.config.cellsize + 30
@@ -98,7 +100,6 @@ class game:
         self.path = []
         self.draw()
         self.create_map()
-
 
     def create(self):
         print('create')
@@ -202,7 +203,12 @@ class game:
 
                 pressed_key = pygame.key.get_pressed()
                 for key, key_value in self.keys.items():
-                    if pressed_key[key_value] and keyup:
+                    if pressed_key[key_value] and keyup and not self.is_completed:
+                        if not self.start_game:
+                            self.algorithm = 'player'
+                            self.start_game = True
+                            self.start_timer = True
+                            self.move_step[-1] = self.visited[-1] = 1
                         keyup = False
                         if self.directions[key] in self.current_cell.possible_move(self.grid_cells):
                             self.current_cell = self.current_cell.possible_move(self.grid_cells)[self.directions[key]]
@@ -211,45 +217,97 @@ class game:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 for button in self.buttons_list:
+                for button in self.buttons_list + self.algorithm_button_list:
                     if button.click(mouse_x, mouse_y):
-                        if button.text == "BFS":
-                            self.algorithm = 'BFS'
+                        if button.text in self.algorithms:
+                            self.algorithm = button.text
                             self.start_autoplay = True
-                        if button.text == "Greedy":
-                            self.algorithm = 'Greedy'
-                            self.start_autoplay = True
-                        if button.text == "DFS":
-                            self.algorithm = 'DFS'
-                            self.start_autoplay = True
-                        if button.text == "Astar":
-                            self.algorithm = 'Astar'
-                            self.start_autoplay = True
-                        if button.text == "UCS":
-                            self.algorithm = 'UCS'
-                            self.start_autoplay = True
-                        if button.text == "Hill":
-                            self.algorithm = 'Hill'
-                            self.start_autoplay = True
-                        if button.text == "IDS":
-                            self.algorithm = 'IDS'
-                            self.start_autoplay = True
+                            self.start_game = True
+                            self.start_timer = True
+                        # if button.text == "BFS":
+                        #     self.algorithm = 'BFS'
+                        #     self.start_autoplay = True
+                        #     self.start_game = True
+                        #     self.start_timer = True
+                        # if button.text == "Greedy":
+                        #     self.algorithm = 'Greedy'
+                        #     self.start_autoplay = True
+                        #     self.start_game = True
+                        #     self.start_timer = True
+                        # if button.text == "DFS":
+                        #     self.algorithm = 'DFS'
+                        #     self.start_autoplay = True
+                        #     self.start_game = True
+                        #     self.start_timer = True
+                        # if button.text == "Astar":
+                        #     self.algorithm = 'Astar'
+                        #     self.start_autoplay = True
+                        #     self.start_game = True
+                        #     self.start_timer = True
+                        # if button.text == "UCS":
+                        #     self.algorithm = 'UCS'
+                        #     self.start_autoplay = True
+                        #     self.start_game = True
+                        #     self.start_timer = True
+                        # if button.text == "Hill":
+                        #     self.algorithm = 'Hill'
+                        #     self.start_autoplay = True
+                        #     self.start_game = True
+                        #     self.start_timer = True
+                        # if button.text == "IDS":
+                        #     self.algorithm = 'IDS'
+                        #     self.start_autoplay = True
+                        #     self.start_game = True
+                        #     self.start_timer = True
+
+                        if button.text == "create map":
+                            self.make_map = True
+                            self.reset_map = True
+                        if button.text == "save":
+                            self.make_map = False
+                            self.start_grid = copy.deepcopy(self.grid_cells)
+                            self.start_replay = True
+                            self.buttons_list.pop()
                         if button.text == "Reset":
                             self.start_reset = True
                         if button.text == "Replay":
                             self.start_replay = True
+                        if button.text == "Play":
+                            self.start_game = True
+                            self.start_timer = True
 
-        #                 if button.text == "BFS":
-        #                     self.autoplay(0)
-        #                     self.start_autoplay = True
-        #                 if button.text == "DFS":
-        #                     self.autoplay(1)
-        #                     self.start_autoplay = True
-        #                 if button.text == "UCS":
-        #                     self.autoplay(2)
-        #                     self.start_autoplay = True
-        #                 if button.text == "Astar":
-        #                     self.autoplay(3)
-        #                     self.start_autoplay = True
+                #                 if button.text == "BFS":
+                #                     self.autoplay(0)
+                #                     self.start_autoplay = True
+                #                 if button.text == "DFS":
+                #                     self.autoplay(1)
+                #                     self.start_autoplay = True
+                #                 if button.text == "UCS":
+                #                     self.autoplay(2)
+                #                     self.start_autoplay = True
+                #                 if button.text == "Astar":
+                #                     self.autoplay(3)
+                #                     self.start_autoplay = True
+            if event.type == pygame.MOUSEBUTTONUP:
+                self.mouser_down = False
+                self.changed = []
+
+            # if self.change_delay <= 10:
+            #     self.change_delay += 1
+            # else:
+            #     self.change_delay = 0
+            if self.make_map and self.mouser_down:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                print('make')
+                find_cell = lambda mouse_x, mouse_y: (
+                    mouse_x // self.config.cellsize, mouse_y // self.config.cellsize,
+                    mouse_x / self.config.cellsize - mouse_x // self.config.cellsize,
+                    mouse_y / self.config.cellsize - mouse_y // self.config.cellsize)
+                print(find_cell(mouse_x, mouse_y)[0:2])
+                for cell in self.grid_cells:
+                    if find_cell(mouse_x, mouse_y)[0:2] not in self.changed:
+                        isclick, self.changed = cell.click(find_cell(mouse_x, mouse_y), wall_remove=True,
+                                                           grid_cells=self.grid_cells)
 
     def autoplay(self):
         self.start_autoplay = False
