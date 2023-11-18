@@ -27,9 +27,6 @@ class game:
         self.path = []
         self.start_game = False
         self.start_reset = False
-        self.algorithm = 'Astar'
-        # self.start_timer = False
-        # self.elapsed_time = 0
         self.algorithm = 'player'
         # # self.high_score = float(self.get_high_scores()[0])
         self.size = int(self.config.width // self.config.cellsize), int(self.config.height // self.config.cellsize)
