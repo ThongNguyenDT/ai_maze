@@ -185,17 +185,7 @@ class game:
         # button right menu
         for button in self.buttons_list:
             button.draw(self.screen)
-        UIElement(self.size[0] * self.config.cellsize + 60, self.size[0] * self.config.cellsize * 0.08, 'MAZE').draw(
-            self.screen)
-        if len(self.path) > 0:
-            self.current_cell = self.complete_cell
-            for i in self.path:
-                self.colors.append((min(self.color, 255), 10, 100))
-                self.color += 1
-            [pygame.draw.rect(self.screen, self.colors[i],
-                              (cell.x * self.config.cellsize + 5, cell.y * self.config.cellsize + 5,
-                               self.config.cellsize - 10, self.config.cellsize - 10),
-                              border_radius=8) for i, cell in enumerate(self.path)]
+
         # algorithm UI
         UIElement(5, self.draw_y + 5, "Algorithm:").draw(
             self.screen, fontsize=15)
@@ -205,6 +195,47 @@ class game:
             self.screen, fontsize=15)
         UIElement(5, self.draw_y + 85, "Move Step:").draw(
             self.screen, fontsize=15)
+
+        # button
+        for i, button in enumerate(self.algorithm_button_list):
+            button.draw(self.screen)
+
+            # Time solver
+            UIElement(button.center_pos_x, self.draw_y + 35, "%.3f" % self.time_of_algorithm[i]).draw_center_x(
+                self.screen, fontsize=15)
+
+            # Visited
+            UIElement(button.center_pos_x, self.draw_y + 60, "%.3f" % self.visited[i]).draw_center_x(
+                self.screen, fontsize=15)
+
+            # Move Step
+            UIElement(button.center_pos_x, self.draw_y + 85, "%.3f" % self.move_step[i]).draw_center_x(
+                self.screen, fontsize=15)
+
+        if self.current_cell == self.complete_cell:
+            if len(self.path) > 0:
+                for i in self.path:
+                    self.colors.append((min(self.color, 255), 10, 100))
+                    self.color += 1
+                [pygame.draw.rect(self.screen, self.colors[i],
+                                  (cell.x * self.config.cellsize + 5, cell.y * self.config.cellsize + 5,
+                                   self.config.cellsize - 10, self.config.cellsize - 10),
+                                  border_radius=8) for i, cell in enumerate(self.path)]
+        # if self.algorithm == 'BFS':
+        #     self.time_of_algorithm[2] = self.elapsed_time
+        # if self.algorithm == 'Greedy':
+        #     self.time_of_algorithm[1] = self.elapsed_time
+        # if self.algorithm == 'DFS':
+        #     self.time_of_algorithm[0] = self.elapsed_time
+        # if self.algorithm == 'Astar':
+        #     self.time_of_algorithm[3] = self.elapsed_time
+        # if self.algorithm == 'UCS':
+        #     self.time_of_algorithm[4] = self.elapsed_time
+        # if self.algorithm == 'Hill':
+        #     self.time_of_algorithm[5] = self.elapsed_time
+        # if self.algorithm == 'IDS':
+        #     self.time_of_algorithm[6] = self.elapsed_time
+        self.time_of_algorithm[self.algorithms.index(self.algorithm)] = self.elapsed_time
 
         pygame.display.update()
 
