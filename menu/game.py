@@ -28,6 +28,8 @@ class game:
         self.start_game = False
         self.start_reset = False
         self.algorithm = 'player'
+        self.start_timer = False
+        self.elapsed_time = 0
         # # self.high_score = float(self.get_high_scores()[0])
         self.size = int(self.config.width // self.config.cellsize), int(self.config.height // self.config.cellsize)
         self.config.cellsize = self.config.cellsize_ratio(0.75)
@@ -41,6 +43,7 @@ class game:
         self.start_replay = False
         self.algorithms = ['DFS', 'Greedy', 'BFS', 'Astar', 'UCS', 'Hill', 'IDS', 'player']
         self.time_of_algorithm = [0, 0, 0, 0, 0, 0, 0, 0]
+        self.is_completed = False
 
     # def get_high_scores(self):
     #     with open("high_score.txt", "r") as file:
@@ -58,11 +61,14 @@ class game:
         self.start_game = False
         self.start_autoplay = False
         self.start_replay = False
+        self.start_timer = False
         self.current_cell = self.grid_cells[0]
         self.complete_cell = self.grid_cells[-1]
         self.map = DFSMAPGen(self.grid_cells, self.config)
         self.directions = {'a': 'left', 'd': 'right', 'w': 'top', 's': 'bottom'}
         self.keys = {'a': pygame.K_a, 'd': pygame.K_d, 'w': pygame.K_w, 's': pygame.K_s}
+        self.is_completed = False
+        self.reset_map = False
 
     def new(self):
         self.all_sprites = pygame.sprite.Group()
@@ -71,6 +77,8 @@ class game:
         # self.start_timer = False
         self.algorithm = 'Astar'
         self.time_of_algorithm = [0, 0, 0, 0, 0, 0, 0, 0]
+        self.elapsed_time = 0
+        self.algorithm = 'player'
         self.initsetup()
         self.buttons_list = []
         self.draw_x, self.draw_y = self.size[0] * self.config.cellsize, self.size[1] * self.config.cellsize + 30
@@ -126,19 +134,20 @@ class game:
 
     def update(self):
         self.all_sprites.update()
-        # if self.start_game:
-        #     if self.current_cell == self.grid_cells[-1]:
-        #         self.start_game = False
-        #         if self.high_score > 0:
-        #             self.high_score = self.elapsed_time if self.elapsed_time < self.high_score else self.high_score
-        #         else:
-        #             self.high_score = self.elapsed_time
-        #         self.save_score()
-        #
-        #     if self.start_timer:
-        #         self.timer = time.time()
-        #         self.start_timer = False
-        #     self.elapsed_time = time.time() - self.timer
+        if self.start_game:
+            if self.current_cell == self.complete_cell:
+                self.start_game = False
+                self.is_completed = True
+            #         if self.high_score > 0:
+            #             self.high_score = self.elapsed_time if self.elapsed_time < self.high_score else self.high_score
+            #         else:
+            #             self.high_score = self.elapsed_time
+            #         self.save_score()
+            #
+            if self.start_timer:
+                self.timer = time.time()
+                self.start_timer = False
+            self.elapsed_time = time.time() - self.timer
         #
         # if self.start_shuffle:
         #     self.shuffle()
@@ -180,9 +189,7 @@ class game:
                                self.config.cellsize - 10, self.config.cellsize - 10),
                               border_radius=8) for i, cell in enumerate(self.path)]
 
-        # UIElement(550, 35, "%.3f" % self.elapsed_time).draw(self.screen)
-        # UIElement(430, 300, "High Score - %.3f" % (self.high_score if self.high_score > 0 else 0)).draw(self.screen)
-        pygame.display.flip()
+        pygame.display.update()
 
     def draw_grid(self):
         [cell.draw(self.screen) for cell in self.grid_cells]
