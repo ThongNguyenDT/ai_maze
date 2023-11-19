@@ -43,7 +43,10 @@ class game:
         self.start_replay = False
         self.algorithms = ['DFS', 'Greedy', 'BFS', 'Astar', 'UCS', 'Hill', 'IDS', 'player']
         self.time_of_algorithm = [0, 0, 0, 0, 0, 0, 0, 0]
+        self.visited = [0, 0, 0, 0, 0, 0, 0, 0]
+        self.move_step = [0, 0, 0, 0, 0, 0, 0, 0]
         self.is_completed = False
+        self.changed = []
 
     # def get_high_scores(self):
     #     with open("high_score.txt", "r") as file:
@@ -73,10 +76,9 @@ class game:
     def new(self):
         self.all_sprites = pygame.sprite.Group()
         pygame.display.set_caption('MAZE - game')
-        # self.elapsed_time = 0
-        # self.start_timer = False
-        self.algorithm = 'Astar'
         self.time_of_algorithm = [0, 0, 0, 0, 0, 0, 0, 0]
+        self.visited = [0, 0, 0, 0, 0, 0, 0, 0]
+        self.move_step = [0, 0, 0, 0, 0, 0, 0, 0]
         self.elapsed_time = 0
         self.algorithm = 'player'
         self.initsetup()
@@ -175,6 +177,12 @@ class game:
         self.screen.fill(pygame.Color(self.config.maincolor))
         self.draw_grid()
         self.current_cell.draw_current_cell(self.screen)
+
+        # UI text
+        UIElement(self.right_menu_center_x, self.draw_y * 0.08, 'MAZE').draw_center_x(self.screen)
+        UIElement(self.right_menu_center_x, self.draw_y * 0.2, "%.3f" % self.elapsed_time).draw_center_x(self.screen)
+
+        # button right menu
         for button in self.buttons_list:
             button.draw(self.screen)
         UIElement(self.size[0] * self.config.cellsize + 60, self.size[0] * self.config.cellsize * 0.08, 'MAZE').draw(
