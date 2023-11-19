@@ -196,6 +196,15 @@ class game:
                               (cell.x * self.config.cellsize + 5, cell.y * self.config.cellsize + 5,
                                self.config.cellsize - 10, self.config.cellsize - 10),
                               border_radius=8) for i, cell in enumerate(self.path)]
+        # algorithm UI
+        UIElement(5, self.draw_y + 5, "Algorithm:").draw(
+            self.screen, fontsize=15)
+        UIElement(5, self.draw_y + 35, "Time solve:").draw(
+            self.screen, fontsize=15)
+        UIElement(5, self.draw_y + 60, "Visited:").draw(
+            self.screen, fontsize=15)
+        UIElement(5, self.draw_y + 85, "Move Step:").draw(
+            self.screen, fontsize=15)
 
         pygame.display.update()
 
