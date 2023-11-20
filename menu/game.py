@@ -263,6 +263,8 @@ class game:
                             self.move_step[-1] = self.visited[-1] = 1
                         keyup = False
                         if self.directions[key] in self.current_cell.possible_move(self.grid_cells):
+                            self.visited[-1] += 1
+                            self.move_step[-1] = self.visited[-1]
                             self.current_cell = self.current_cell.possible_move(self.grid_cells)[self.directions[key]]
             if event.type == pygame.KEYUP:
                 keyup = True
@@ -363,24 +365,38 @@ class game:
 
     def autoplay(self):
         self.start_autoplay = False
-        if self.algorithm == 'BFS':
-            self.path = bfs(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
-        if self.algorithm == 'Greedy':
-            self.path = greedy(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
-        if self.algorithm == 'DFS':
-            self.path = dfs(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
-        if self.algorithm == 'Astar':
-            print("call a")
-            self.path = a_star(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
-        if self.algorithm == 'UCS':
-            print("call U")
-            self.path = ucs(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
-        if self.algorithm == 'Hill':
-            print("call H")
-            self.path = hill_climbing(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
-        if self.algorithm == 'IDS':
-            print("call i")
-            self.path = ids(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
+        # 'DFS', 'Greedy', 'BFS', 'Astar', 'UCS', 'Hill', 'IDS'
+        funcs = [dfs, greedy, bfs, a_star, ucs, hill_climbing, ids]
+
+        def callback(func_i, maze, start, goal, sc, config=None):
+            self.path = funcs[func_i](maze, start, goal, sc, config=None)
+            if self.path is None:
+                self.path = []
+            else:
+                if self.path[-1] != self.complete_cell:
+                    self.path.append(self.complete_cell)
+            self.visited[func_i] = self.visited_counter()
+            self.move_step[func_i] = len(self.path)
+
+        callback(self.algorithms.index(self.algorithm), self.grid_cells, self.current_cell, self.complete_cell,
+                 self.screen, self.config)
+
+        # if self.algorithm == 'BFS':
+        #     self.path = bfs(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
+        # if self.algorithm == 'Greedy':
+        #     self.path = greedy(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
+        # if self.algorithm == 'DFS':
+        #     self.path = dfs(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
+        # if self.algorithm == 'Astar':
+        #     self.path = a_star(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
+        # if self.algorithm == 'UCS':
+        #     self.path = ucs(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
+        # if self.algorithm == 'Hill':
+        #     self.path = hill_climbing(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
+        # if self.algorithm == 'IDS':
+        #     self.path = ids(self.grid_cells, self.current_cell, self.complete_cell, self.screen, self.config)
+
+        self.current_cell = self.complete_cell
 
     def reset(self):
         self.start_reset = False
@@ -391,9 +407,9 @@ class game:
     def replay(self):
         self.start_replay = False
         self.grid_cells = self.start_grid
+        self.set_visited()
         self.draw()
         self.initsetup()
-        print("call replay")
 
     def main(self):
         self.screen.fill(pygame.Color(self.config.maincolor))
