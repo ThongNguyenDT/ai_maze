@@ -113,3 +113,5 @@ class Cell:
         if left and not left.visited and not self.walls['left']:
             neighbors.append(left)
         return neighbors
+
+    def click(self, pos_cell, wall_remove=False, grid_cells=None):
