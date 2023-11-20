@@ -123,7 +123,7 @@ class game:
         while not isBreak:
             [cell.draw(self.screen) for cell in self.grid_cells]
             self.current_cell, isBreak = self.map.draw_maze(self.screen, self.current_cell, isBreak)
-            self.clock.tick(self.config.fps)
+            # self.clock.tick(self.config.fps)
             pygame.display.update()
         self.start_grid = copy.deepcopy(self.grid_cells)
 
@@ -249,7 +249,7 @@ class game:
 
     def draw_grid(self):
         [cell.draw(self.screen) for cell in self.grid_cells]
-        pygame.display.flip()
+        # pygame.display.flip()
 
     def events(self):
         for event in pygame.event.get():
