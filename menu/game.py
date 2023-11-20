@@ -41,6 +41,8 @@ class game:
         # cols, rows = self.size
         self.start_grid = copy.deepcopy(self.grid_cells)
         self.start_replay = False
+        self.make_map = False
+        self.mouser_down = False
         self.algorithms = ['DFS', 'Greedy', 'BFS', 'Astar', 'UCS', 'Hill', 'IDS', 'player']
         self.time_of_algorithm = [0, 0, 0, 0, 0, 0, 0, 0]
         self.visited = [0, 0, 0, 0, 0, 0, 0, 0]
@@ -65,13 +67,16 @@ class game:
         self.start_autoplay = False
         self.start_replay = False
         self.start_timer = False
+        self.make_map = False
         self.current_cell = self.grid_cells[0]
         self.complete_cell = self.grid_cells[-1]
         self.map = DFSMAPGen(self.grid_cells, self.config)
         self.directions = {'a': 'left', 'd': 'right', 'w': 'top', 's': 'bottom'}
         self.keys = {'a': pygame.K_a, 'd': pygame.K_d, 'w': pygame.K_w, 's': pygame.K_s}
         self.is_completed = False
+        self.mouser_down = False
         self.reset_map = False
+        self.changed = []
 
     def new(self):
         self.all_sprites = pygame.sprite.Group()
@@ -171,6 +176,9 @@ class game:
         if self.start_replay:
             if self.replay():
                 self.start_replay = False
+        if self.make_map:
+            self.make_map_handler()
+
 
     def draw(self):
         self.all_sprites.draw(self.screen)
@@ -270,7 +278,8 @@ class game:
                 keyup = True
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
-                for button in self.buttons_list:
+                self.mouser_down = True
+
                 for button in self.buttons_list + self.algorithm_button_list:
                     if button.click(mouse_x, mouse_y):
                         if button.text in self.algorithms:
@@ -422,4 +431,21 @@ class game:
             self.clock.tick(self.config.fps)
             pygame.display.update()
 
+    def visited_counter(self):
+        counter = 0
+        for cell in self.grid_cells:
+            if cell.visited:
+                counter += 1
+        return counter
 
+    def set_visited(self):
+        for cell in self.grid_cells:
+            cell.visited = True
+
+    def make_map_handler(self):
+        if self.reset_map:
+            self.buttons_list.append(
+                Button(self.right_menu_center_x, self.draw_y * 0.85, 100, 25, "save", WHITE, BLACK, size=15,
+                       center=True))
+            self.grid_cells = self.create()
+            self.reset_map = False
