@@ -3,7 +3,6 @@ import heapq
 import pygame
 from config.logicConfig import Config
 
-
 def ucs(maze, start, goal, sc, config=None):
     if config is None:
         config = Config()
