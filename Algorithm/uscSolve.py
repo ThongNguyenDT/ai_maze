@@ -33,5 +33,4 @@ def ucs(maze, start, goal, sc, config=None):
         pygame.time.Clock().tick(20)
         pygame.display.update()
 
-    # If no path is found, return None to indicate that there's no solution
     return None
