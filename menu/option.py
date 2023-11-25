@@ -103,6 +103,8 @@ class option:
                     if button.click(mouse_x, mouse_y):
                         if button.text == 'game':
                             new_config = Config(width=self.width, height=self.height, level=self.selected_level)
-                            game(self.screen, self.config).main()
+                            game(self.screen, new_config).main()
+
+
 
             self.manager.process_events(event)
