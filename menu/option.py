@@ -105,6 +105,4 @@ class option:
                             new_config = Config(width=self.width, height=self.height, level=self.selected_level)
                             game(self.screen, new_config).main()
 
-
-
             self.manager.process_events(event)
