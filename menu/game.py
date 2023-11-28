@@ -432,7 +432,7 @@ class game:
             pygame.display.update()
 
     def visited_counter(self):
-        counter = 0
+        counter = 1
         for cell in self.grid_cells:
             if cell.visited:
                 counter += 1
