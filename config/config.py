@@ -1,5 +1,6 @@
+
 HD = (1280,720)
-FULL_HD = (1920,1080)
+FHD = (1920,1080)
 QHD = (2560,1440)
 UHD = (3840,2160)
 RUHD = (4096,2160)
@@ -8,7 +9,7 @@ RUHD = (4096,2160)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 DARKGREY = (40, 40, 40)
-LIGHTGREY = (100, 100, 100)
+CELLCOLOR = (38, 50, 56)
 BGCOLOUR = DARKGREY
 
 # setings
@@ -21,8 +22,10 @@ MAINCOLOR = 'darkslategray'
 STARTCOLOR = 'saddlebrown'
 VISITEDCOLOR = 'black'
 BORDERCOLOR = 'darkorange'
-INIT_WIDTH = 800
+INIT_WIDTH = 1000
 INIT_HEIGHT = 641
 FPS = 60
 CELLSIZE = 50
+
+Visualization_speed = 20
 

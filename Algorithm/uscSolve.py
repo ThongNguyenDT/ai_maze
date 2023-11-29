@@ -1,30 +1,35 @@
+import heapq
+
 import pygame
 from config.logicConfig import Config
 
 
-def dfs(maze, start, goal, sc, config=None):
+def ucs(maze, start, goal, sc, config=None):
     if config is None:
         config = Config()
 
-    stack = [(start, [])]  # Initialize the stack with the start cell and an empty path
+    queue = PriorityQueue()
+    queue.put((0, start, []))  # Initialize the priority queue with a cost of 0, the start cell, and an empty path
+    queue = [(0, start, [])]  # Initialize the queue with the start cell, its cost, and an empty path
+    heapq.heapify(queue)
 
-    while stack:
-        current_cell, path = stack.pop()  # Pop the current cell and its path from the stack
+    while queue:
+        current_cost, current_cell, path = heapq.heappop(queue)
 
         if current_cell == goal:
             [cell.draw_current_cell(sc) for cell in path]
-            # We found the goal, return the path
             return path
 
         if not current_cell.visited:
             current_cell.visited = True
 
-            # Get neighboring cells
             neighbors = current_cell.find_neighbors(maze)
 
             for neighbor in neighbors:
+                new_cost = current_cost + neighbor.cost
+
                 new_path = path + [current_cell]
-                stack.append((neighbor, new_path))
+                heapq.heappush(queue, (new_cost, neighbor, new_path))
 
         [cell.draw(sc) for cell in maze]
         pygame.display.flip()

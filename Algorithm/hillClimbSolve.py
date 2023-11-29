@@ -4,13 +4,14 @@ from config.logicConfig import Config
 def evaluate(cell, goal):
     return ((cell.x - goal.x) ** 2 + (cell.y - goal.y) ** 2) ** 0.5
 
-def greedy(maze, start, goal, sc, config=None):
+def hill_climbing(maze, start, goal, sc, config=None):
     if config is None:
         config = Config()
     print('hear')
 
     current_cell = start
     path = [current_cell]
+    visited_cells = set()  # Danh sách các ô đã đi qua
     found_path = False
 
     while current_cell != goal:
@@ -21,7 +22,7 @@ def greedy(maze, start, goal, sc, config=None):
         best_score = float('inf')
 
         for neighbor in neighbors:
-            if not neighbor.visited:  # Đảm bảo không quay lại ô đã đi qua
+            if neighbor not in visited_cells:  # Đảm bảo không quay lại ô đã đi qua
                 score = evaluate(neighbor, goal)
                 if score < best_score:
                     best_score = score
@@ -30,6 +31,7 @@ def greedy(maze, start, goal, sc, config=None):
         if best_neighbor is None:
             # Không tìm thấy đường đi, quay lại bước trước đó
             if len(path) > 1:  # Nếu có ít nhất 2 ô trong đường đi
+                visited_cells.add(current_cell)  # Thêm ô hiện tại vào danh sách đã đi qua
                 path.pop()  # Bỏ ô hiện tại
                 current_cell = path[-1]  # Đặt ô hiện tại là ô trước đó
             else:
@@ -38,6 +40,7 @@ def greedy(maze, start, goal, sc, config=None):
         else:
             # Tìm thấy ô tiếp theo, thêm vào đường đi
             path.append(best_neighbor)
+            visited_cells.add(current_cell)
             current_cell = best_neighbor
 
         [cell.draw_current_cell(sc) for cell in path]
