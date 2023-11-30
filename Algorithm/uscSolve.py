@@ -3,13 +3,10 @@ import heapq
 import pygame
 from config.logicConfig import Config
 
-
 def ucs(maze, start, goal, sc, config=None):
     if config is None:
         config = Config()
 
-    queue = PriorityQueue()
-    queue.put((0, start, []))  # Initialize the priority queue with a cost of 0, the start cell, and an empty path
     queue = [(0, start, [])]  # Initialize the queue with the start cell, its cost, and an empty path
     heapq.heapify(queue)
 
@@ -36,5 +33,4 @@ def ucs(maze, start, goal, sc, config=None):
         pygame.time.Clock().tick(20)
         pygame.display.update()
 
-    # If no path is found, return None to indicate that there's no solution
     return None

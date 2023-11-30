@@ -10,7 +10,7 @@ from Algorithm.greedySolve import greedy
 from Algorithm.hillClimbSolve import hill_climbing
 from Algorithm.idSolve import ids
 from Algorithm.uscSolve import ucs
-from config.config import WHITE, BLACK
+from config.config import WHITE, BLACK, BLUE
 from object.draw.UIElement import UIElement
 from object.draw.button import Button
 from object.gameplay.Cell import Cell
@@ -185,6 +185,7 @@ class game:
         self.screen.fill(pygame.Color(self.config.maincolor))
         self.draw_grid()
         self.current_cell.draw_current_cell(self.screen)
+        self.complete_cell.draw_current_cell(self.screen, BLUE)
 
         # UI text
         UIElement(self.right_menu_center_x, self.draw_y * 0.08, 'MAZE').draw_center_x(self.screen)
@@ -432,7 +433,7 @@ class game:
             pygame.display.update()
 
     def visited_counter(self):
-        counter = 0
+        counter = 1
         for cell in self.grid_cells:
             if cell.visited:
                 counter += 1
